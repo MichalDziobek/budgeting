@@ -11,6 +11,8 @@ public static class ConfigureServices
     {
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Postgres")));
+
+        services.AddTransient<ApplicationDbContextInitializer>();
         
         
         return services;
