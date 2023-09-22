@@ -28,7 +28,7 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
 
     public async Task<TEntity?> GetById(TId id, CancellationToken cancellationToken = default)
     {
-        return await DbSet.FindAsync(new[] { id }, cancellationToken);
+        return await DbSet.FindAsync(new object[] { id }, cancellationToken);
     }
 
     public async Task<PaginatedResponse<TEntity>> GetPaginatedResponse(int offset, int limit,
