@@ -1,4 +1,3 @@
-using Application.Abstractions;
 using FluentValidation;
 
 namespace Application.Users.Commands;

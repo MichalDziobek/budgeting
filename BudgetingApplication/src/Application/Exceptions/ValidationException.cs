@@ -1,10 +1,12 @@
-﻿using FluentValidation.Results;
+﻿using System.Net;
+using FluentValidation.Results;
 
 namespace Application.Exceptions;
 
-public class ValidationException : Exception
+public class ValidationException : StatusCodeException
 {
-    public ValidationException(IEnumerable<ValidationFailure> failures) : base("One or more validation failures have occurred.")
+    public ValidationException(IEnumerable<ValidationFailure> failures) 
+        : base(HttpStatusCode.BadRequest, "One or more validation failures have occurred.")
     {
         Errors = failures
             .GroupBy(e => e.PropertyName, e => e.ErrorMessage)

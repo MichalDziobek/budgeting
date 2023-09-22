@@ -11,6 +11,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddWebApiServices(builder.Configuration);
 
+builder.Services.AddProblemDetails();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
     var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
     await initializer.InitialiseAsync();
 }
+
+app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();
 
