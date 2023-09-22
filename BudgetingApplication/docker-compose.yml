@@ -1,0 +1,30 @@
+
+services:
+  web:    
+    container_name: budgetingWebApi
+    build:      
+      context: .
+      dockerfile: ./src/WebApi/Dockerfile
+    depends_on: [ budgetingDb ]        
+    ports:
+      - "8080:80"
+      - "8081:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__Postgres=host=budgetingDb;Port=5432;Database=budgetingDb;User Id=admin;Password=admin;"
+
+  budgetingDb:
+    image: postgres
+    container_name: budgetingDb
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=budgetingDb
+    volumes:
+      - dubgetingData:/var/lib/postgresql/data/
+
+volumes:
+  dubgetingData:
