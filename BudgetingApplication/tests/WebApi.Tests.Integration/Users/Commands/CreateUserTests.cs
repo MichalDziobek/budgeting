@@ -3,7 +3,6 @@ using System.Net.Http.Json;
 using Application.Abstractions;
 using Application.Users.Commands;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
 
