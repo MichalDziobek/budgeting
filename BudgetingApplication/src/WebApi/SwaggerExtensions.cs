@@ -26,10 +26,12 @@ public static class SwaggerExtensions
                     {
                         TokenUrl = new Uri($"{authority}oauth/token"),
                         AuthorizationUrl = new Uri($"{authority}authorize?audience={audience}"),
-                        // Scopes = new Dictionary<string, string>
-                        // {
-                        //     { "openid", "OpenId" },
-                        // }
+                        Scopes = new Dictionary<string, string>
+                        {
+                            { "openid", "OpenId" },
+                            { "profile", "name, nickname and picture claims"},
+                            { "email", "email and email_verified claims"},
+                        }
                     }
                 }
             });

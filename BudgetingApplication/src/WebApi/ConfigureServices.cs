@@ -30,7 +30,6 @@ public static class ConfigureServices
         services.AddHttpContextAccessor();
         services.AddTransient<ICurrentUserService, CurrentUserService>();
         
-        // services.AddSwaggerGen();
         return services;
     }
 }

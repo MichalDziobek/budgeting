@@ -1,5 +1,9 @@
 ﻿using Application.Abstractions;
+using Application.Abstractions.Persistance;
+using Application.Users.Commands;
+using Domain.Entities;
 using Infrastructure.Persistence;
+using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +21,7 @@ public static class ConfigureServices
 
         services.AddTransient<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddTransient<ApplicationDbContextInitializer>();
+        services.AddTransient<IUsersRepository, UsersRepository>();
         
         
         return services;
