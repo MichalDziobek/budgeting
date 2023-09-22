@@ -1,6 +1,6 @@
 using Microsoft.OpenApi.Models;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace WebApi;
 
 public static class SwaggerExtensions
 {

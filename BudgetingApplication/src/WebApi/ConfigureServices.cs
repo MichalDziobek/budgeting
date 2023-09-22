@@ -1,9 +1,6 @@
-﻿
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace WebApi;
 
 public static class ConfigureServices
 {

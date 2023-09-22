@@ -1,5 +1,7 @@
+using Application;
+using Infrastructure;
 using Infrastructure.Persistence;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
