@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistence;
+﻿using Application.Abstractions;
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -10,8 +11,10 @@ public static class ConfigureServices
         IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("Postgres")));
+                options.UseNpgsql(configuration.GetConnectionString("Postgres")), ServiceLifetime.Transient,
+            ServiceLifetime.Singleton);
 
+        services.AddTransient<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddTransient<ApplicationDbContextInitializer>();
         
         
