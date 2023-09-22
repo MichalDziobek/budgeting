@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Application.Abstractions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using WebApi.Services;
 
 namespace WebApi;
 
@@ -24,6 +26,9 @@ public static class ConfigureServices
             });
 
         services.AddSwaggerService(authority, audience);
+
+        services.AddHttpContextAccessor();
+        services.AddTransient<ICurrentUserService, CurrentUserService>();
         
         // services.AddSwaggerGen();
         return services;
