@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Application.Abstractions.Persistance;
+using Application.Abstractions.Persistence;
 using Application.Users.Queries.DataModels;
 using Domain.Entities;
 using Mapster;

@@ -1,5 +1,5 @@
 using Application.Abstractions;
-using Application.Abstractions.Persistance;
+using Application.Abstractions.Persistence;
 using Application.Exceptions;
 using Application.Users.Commands;
 using AutoFixture;

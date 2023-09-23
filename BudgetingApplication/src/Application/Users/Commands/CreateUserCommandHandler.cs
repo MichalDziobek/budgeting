@@ -1,5 +1,5 @@
 using Application.Abstractions;
-using Application.Abstractions.Persistance;
+using Application.Abstractions.Persistence;
 using Application.Exceptions;
 using Domain.Entities;
 using Mapster;

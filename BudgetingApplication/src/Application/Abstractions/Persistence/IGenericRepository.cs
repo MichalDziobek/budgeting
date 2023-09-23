@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using Application.DataModels.Common;
 using Domain.Entities;
 
-namespace Application.Abstractions.Persistance;
+namespace Application.Abstractions.Persistence;
 
 public interface IGenericRepository<TEntity, in TId>
     where TId : notnull

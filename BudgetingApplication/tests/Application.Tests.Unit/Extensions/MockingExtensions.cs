@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Application.Abstractions.Persistance;
+using Application.Abstractions.Persistence;
 using Domain.Entities;
 using NSubstitute.Core;
 
