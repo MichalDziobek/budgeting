@@ -1,6 +1,6 @@
-namespace Application.Users.Queries;
+namespace Application.Users.Queries.DataModels;
 
-public class UserResponse
+public class UserDto
 {
     public string Id { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;

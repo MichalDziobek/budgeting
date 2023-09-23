@@ -31,6 +31,18 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
         return await DbSet.FindAsync(new object[] { id }, cancellationToken);
     }
 
+    public async Task<List<TEntity>> GetCollection(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
+    {
+        var queryable = DbSet.AsQueryable();
+
+        if (predicate is not null)
+        {
+            queryable = queryable.Where(predicate);
+        }
+
+        return await queryable.ToListAsync(cancellationToken);
+    }
+
     public async Task<PaginatedResponse<TEntity>> GetPaginatedResponse(int offset, int limit,
         Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
     {
