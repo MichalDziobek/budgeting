@@ -1,4 +1,3 @@
-using Application.Budgets.Commands.CreateBudget;
 using Application.Budgets.DataModels;
 
 namespace Application.Budgets.Queries.GetBudgets;

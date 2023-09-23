@@ -4,7 +4,7 @@ using Application.Exceptions;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Budgets.Commands.ShareBudgetCommand;
+namespace Application.Budgets.Commands.ShareBudget;
 
 public class ShareBudgetCommandHandler : IRequestHandler<ShareBudgetCommand>
 {

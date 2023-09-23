@@ -1,9 +1,7 @@
-using Application.Budgets.Commands.ShareBudgetCommand;
-using Application.Budgets.Commands.UpdateBudgetNameCommand;
-using AutoFixture;
+using Application.Budgets.Commands.ShareBudget;
 using FluentValidation.TestHelper;
 
-namespace Application.Tests.Unit.Budgets.Commands.UpdateBudgetName;
+namespace Application.Tests.Unit.Budgets.Commands.ShareBudget;
 
 public class ShareBudgetCommandValidatorTests
 {

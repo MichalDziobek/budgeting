@@ -35,7 +35,7 @@ public class UpdateBudgetNameTests : IAsyncLifetime
     public async Task InitializeAsync()
     {
         await _testDatabase.AddAsync<User, string>(UserTestsData.DefaultUser);
-        var budget = BudgetsTestsData.DefaultBudget;
+        var budget = BudgetsTestsData.DefaultEntity;
         budget.OwnerId = UserTestsData.DefaultUserId;
         _existingBudgetId = (await _testDatabase.AddAsync<Budget, int>(budget)).Id;
     }
@@ -106,7 +106,7 @@ public class UpdateBudgetNameTests : IAsyncLifetime
     {
         //Arrange
         var command = BudgetsTestsData.CorrectUpdateNameCommand;
-        // await _testDatabase.AddAsync<Budget, int>(BudgetsTestsData.DefaultBudget);
+        // await _testDatabase.AddAsync<Budget, int>(BudgetsTestsData.DefaultEntity);
         
         //Act
         var response = await _client.PatchAsJsonAsync(EndpointPath(-1), command);

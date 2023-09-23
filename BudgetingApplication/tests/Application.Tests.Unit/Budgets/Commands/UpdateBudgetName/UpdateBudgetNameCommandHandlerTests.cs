@@ -1,6 +1,6 @@
 using Application.Abstractions;
 using Application.Abstractions.Persistence;
-using Application.Budgets.Commands.UpdateBudgetNameCommand;
+using Application.Budgets.Commands.UpdateBudgetName;
 using Application.Exceptions;
 using Application.Tests.Unit.Extensions;
 using AutoFixture;

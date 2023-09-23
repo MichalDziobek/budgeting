@@ -1,14 +1,13 @@
 using Application.Abstractions;
 using Application.Abstractions.Persistence;
-using Application.Budgets.Commands.ShareBudgetCommand;
-using Application.Budgets.Commands.UpdateBudgetNameCommand;
+using Application.Budgets.Commands.ShareBudget;
 using Application.Exceptions;
 using Application.Tests.Unit.Extensions;
 using AutoFixture;
 using Domain.Entities;
 using NSubstitute.ReturnsExtensions;
 
-namespace Application.Tests.Unit.Budgets.Commands.UpdateBudgetName;
+namespace Application.Tests.Unit.Budgets.Commands.ShareBudget;
 
 public class ShareBudgetCommandHandlerTests
 {

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Application.Budgets.Commands.ShareBudgetCommand;
+namespace Application.Budgets.Commands.ShareBudget;
 
 public class ShareBudgetCommandValidator : AbstractValidator<ShareBudgetCommand>
 {

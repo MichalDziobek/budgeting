@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using Application.Abstractions;
-using Application.Budgets.Commands.ShareBudgetCommand;
+using Application.Budgets.Commands.ShareBudget;
 using AutoFixture;
 using Domain.Entities;
 using FluentAssertions;
@@ -9,10 +9,9 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using WebApi.Tests.Integration.Common;
 using WebApi.Tests.Integration.Common.Abstractions;
-using WebApi.Tests.Integration.Users;
 using Xunit;
 
-namespace WebApi.Tests.Integration.Budgets.Commands.UpdateBudgetName;
+namespace WebApi.Tests.Integration.Budgets.Commands.ShareBudget;
 
 [Collection(nameof(SharedTestCollection))]
 public class ShareBudgetTests : IAsyncLifetime
@@ -47,7 +46,7 @@ public class ShareBudgetTests : IAsyncLifetime
     {
         await _testDatabase.AddRangeAsync<User, string>(_initialUsers);
         
-        var budget = BudgetsTestsData.DefaultBudget;
+        var budget = BudgetsTestsData.DefaultEntity;
         budget.OwnerId = _initialUsers[0].Id;
         _existingBudgetId = (await _testDatabase.AddAsync<Budget, int>(budget)).Id;
     }

@@ -1,6 +1,6 @@
 using Application.Budgets.Commands.CreateBudget;
-using Application.Budgets.Commands.ShareBudgetCommand;
-using Application.Budgets.Commands.UpdateBudgetNameCommand;
+using Application.Budgets.Commands.ShareBudget;
+using Application.Budgets.Commands.UpdateBudgetName;
 using Application.Budgets.Queries.GetBudgets;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

@@ -3,7 +3,7 @@ using Application.Abstractions.Persistence;
 using Application.Exceptions;
 using MediatR;
 
-namespace Application.Budgets.Commands.UpdateBudgetNameCommand;
+namespace Application.Budgets.Commands.UpdateBudgetName;
 
 public class UpdateBudgetNameCommandHandler : IRequestHandler<UpdateBudgetNameCommand>
 {
