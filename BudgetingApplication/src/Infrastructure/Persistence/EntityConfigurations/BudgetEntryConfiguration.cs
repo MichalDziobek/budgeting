@@ -12,5 +12,8 @@ public class BudgetEntryConfiguration : IEntityTypeConfiguration<BudgetEntry>
 
         builder.HasOne(x => x.Budget).WithMany(x => x.BudgetEntries)
             .HasForeignKey(x => x.BudgetId).OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(x => x.Category).WithMany(x => x.BudgetEntries)
+            .HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Cascade);
     }
 }

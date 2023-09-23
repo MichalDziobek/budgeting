@@ -12,5 +12,7 @@ public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
 
         builder.HasOne(x => x.Owner).WithMany(x => x.OwnedBudgets)
             .HasForeignKey(x => x.OwnerId);
+
+        builder.HasMany(x => x.UsersWithSharedAccess).WithMany(x => x.SharedBudgets);
     }
 }

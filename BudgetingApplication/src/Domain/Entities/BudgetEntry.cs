@@ -8,4 +8,7 @@ public class BudgetEntry : BaseEntity<int>
 
     public int BudgetId { get; set; }
     public Budget Budget { get; set; } = default!;
+
+    public int CategoryId { get; set; }
+    public BudgetEntryCategory Category { get; set; } = default!;
 }
