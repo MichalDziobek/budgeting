@@ -1,3 +1,5 @@
+using Application.Budgets.DataModels;
+
 namespace Application.Budgets.Commands.CreateBudget;
 
 public class CreateBudgetResponse

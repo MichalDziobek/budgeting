@@ -1,6 +1,6 @@
 using Application.Abstractions.Persistence;
 using Application.Tests.Unit.Extensions;
-using Application.Users.Queries.DataModels;
+using Application.Users.DataModels;
 using Application.Users.Queries.GetUsers;
 using AutoFixture;
 using Domain.Entities;

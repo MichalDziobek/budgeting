@@ -1,4 +1,5 @@
 using Application.Budgets.Commands.CreateBudget;
+using Application.Budgets.Commands.UpdateBudgetNameCommand;
 using Domain.Entities;
 using WebApi.Tests.Integration.Users;
 
@@ -12,6 +13,12 @@ public class BudgetsTestsData
     {
         Name = DefaultName,
     };
+
+    public static UpdateBudgetNameCommand CorrectUpdateNameCommand =>
+        new UpdateBudgetNameCommand()
+        {
+            Name = DefaultName + "2",
+        };
 
     public static Budget DefaultBudget => new Budget()
     {

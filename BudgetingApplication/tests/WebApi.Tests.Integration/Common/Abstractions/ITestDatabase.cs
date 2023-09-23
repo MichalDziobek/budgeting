@@ -8,7 +8,7 @@ public interface ITestDatabase
         where TId : notnull
         where TEntity : BaseEntity<TId>;
 
-    Task AddAsync<TEntity, TId>(TEntity entity)
+    Task<TEntity> AddAsync<TEntity, TId>(TEntity entity)
         where TId : notnull
         where TEntity : BaseEntity<TId>;
     

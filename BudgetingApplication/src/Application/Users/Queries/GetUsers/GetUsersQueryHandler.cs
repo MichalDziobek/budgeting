@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using Application.Abstractions.Persistence;
-using Application.Users.Queries.DataModels;
+using Application.Users.DataModels;
 using Domain.Entities;
 using Mapster;
 using MediatR;

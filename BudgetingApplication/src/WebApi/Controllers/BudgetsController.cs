@@ -1,4 +1,5 @@
 using Application.Budgets.Commands.CreateBudget;
+using Application.Budgets.Commands.UpdateBudgetNameCommand;
 using Application.Budgets.Queries.GetBudgets;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -31,5 +32,13 @@ public class BudgetsController : ControllerBase
     {
         var result = await _sender.Send(new GetBudgetsQuery(), cancellationToken);
         return Ok(result);
+    }
+    
+    [HttpPatch("{budgetId:int}")]
+    public async Task<ActionResult<GetBudgetsResponse>> UpdateName(int budgetId, UpdateBudgetNameCommand command,CancellationToken cancellationToken)
+    {
+        command.BudgetId = budgetId;
+        await _sender.Send(command, cancellationToken);
+        return Ok();
     }
 }

@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using Application.Users.Queries.DataModels;
+using Application.Users.DataModels;
 using Application.Users.Queries.GetUsers;
 using AutoFixture;
 using Domain.Entities;

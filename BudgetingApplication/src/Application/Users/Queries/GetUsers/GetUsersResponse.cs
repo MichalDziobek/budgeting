@@ -1,4 +1,4 @@
-using Application.Users.Queries.DataModels;
+using Application.Users.DataModels;
 
 namespace Application.Users.Queries.GetUsers;
 

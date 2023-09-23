@@ -24,13 +24,14 @@ public class TestDatabase : ITestDatabase
         return await _dbContext.FindAsync<TEntity>(id);
     }
 
-    public async Task AddAsync<TEntity, TId>(TEntity entity)
+    public async Task<TEntity> AddAsync<TEntity, TId>(TEntity entity)
         where TId : notnull
         where TEntity : BaseEntity<TId>
     {
         _dbContext.Add(entity);
 
         await _dbContext.SaveChangesAsync();
+        return entity;
     }
 
     public async Task AddRangeAsync<TEntity, TId>(IEnumerable<TEntity> entity)

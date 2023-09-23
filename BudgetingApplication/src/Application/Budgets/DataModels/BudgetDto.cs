@@ -1,4 +1,4 @@
-namespace Application.Budgets.Commands.CreateBudget;
+namespace Application.Budgets.DataModels;
 
 public class BudgetDto
 {

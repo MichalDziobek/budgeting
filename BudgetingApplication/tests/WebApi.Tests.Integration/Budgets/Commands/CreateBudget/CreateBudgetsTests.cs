@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using Application.Abstractions;
 using Application.Budgets.Commands.CreateBudget;
+using Application.Budgets.DataModels;
 using Domain.Entities;
 using FluentAssertions;
 using Mapster;
@@ -12,7 +13,7 @@ using WebApi.Tests.Integration.Common.Abstractions;
 using WebApi.Tests.Integration.Users;
 using Xunit;
 
-namespace WebApi.Tests.Integration.Budgets.Commands;
+namespace WebApi.Tests.Integration.Budgets.Commands.CreateBudget;
 
 [Collection(nameof(SharedTestCollection))]
 public class CreateBudgetsTests : IAsyncLifetime

@@ -1,17 +1,15 @@
 using Application.Abstractions;
 using Application.Abstractions.Persistence;
-using Application.Budgets.Commands.CreateBudget;
+using Application.Budgets.DataModels;
 using Application.Budgets.Queries.GetBudgets;
 using Application.Exceptions;
 using Application.Tests.Unit.Extensions;
-using Application.Users.Queries.DataModels;
-using Application.Users.Queries.GetUsers;
 using AutoFixture;
 using Domain.Entities;
 using Mapster;
 using NSubstitute.ReturnsExtensions;
 
-namespace Application.Tests.Unit.Users.Queries.GetUsers;
+namespace Application.Tests.Unit.Budgets.Queries.GetBudgets;
 
 public class GetBudgetsQueryHandlerTests
 {

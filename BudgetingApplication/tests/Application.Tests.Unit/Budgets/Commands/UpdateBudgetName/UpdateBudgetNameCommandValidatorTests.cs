@@ -1,20 +1,21 @@
-using Application.Budgets.Commands.CreateBudget;
+using Application.Budgets.Commands.UpdateBudgetNameCommand;
 using AutoFixture;
 using FluentValidation.TestHelper;
 
-namespace Application.Tests.Unit.Budgets.Commands.CreateBudget;
+namespace Application.Tests.Unit.Budgets.Commands.UpdateBudgetName;
 
-public class CreateBudgetCommandValidatorTests
+public class UpdateBudgetNameCommandValidatorTests
 {
-    private readonly CreateBudgetCommandValidator _sut = new();
+    private readonly UpdateBudgetNameCommandValidator _sut = new();
 
     [Fact]
     public void ShouldPass_OnCorrectData()
     {
         //Arrange
-        var command = new CreateBudgetCommand()
+        var command = new UpdateBudgetNameCommand()
         {
-            Name = "Budget Name"
+            Name = "Budget Name",
+            BudgetId = 3
         };
         
         //Act
@@ -28,9 +29,10 @@ public class CreateBudgetCommandValidatorTests
     public void ShouldFail_OnEmptyName()
     {
         //Arrange
-        var command = new CreateBudgetCommand()
+        var command = new UpdateBudgetNameCommand()
         {
-            Name = string.Empty
+            Name = string.Empty,
+            BudgetId = 3
         };
         
         //Act
@@ -40,6 +42,23 @@ public class CreateBudgetCommandValidatorTests
         result.ShouldHaveValidationErrorFor(x => x.Name);
     }
     
+    [Fact]
+    public void ShouldFail_OnEmptyId()
+    {
+        //Arrange
+        var command = new UpdateBudgetNameCommand()
+        {
+            Name = "Budget Name",
+            BudgetId = 0
+        };
+        
+        //Act
+        var result = _sut.TestValidate(command);
+
+        //Assert
+        result.ShouldHaveValidationErrorFor(x => x.BudgetId);
+    }
+    
 
     [Fact]
     public void ShouldFail_OnTooLongName()
@@ -47,7 +66,7 @@ public class CreateBudgetCommandValidatorTests
         //Arrange
         var fixture = new Fixture();
 
-        var command = new CreateBudgetCommand
+        var command = new UpdateBudgetNameCommand
         {
             Name = string.Join("", fixture.CreateMany<char>(500))
         };

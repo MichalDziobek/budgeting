@@ -1,6 +1,7 @@
 using Application.Abstractions;
 using Application.Abstractions.Persistence;
 using Application.Budgets.Commands.CreateBudget;
+using Application.Budgets.DataModels;
 using Application.Exceptions;
 using Mapster;
 using MediatR;

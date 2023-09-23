@@ -8,7 +8,7 @@ using Domain.Entities;
 using Mapster;
 using NSubstitute.ReturnsExtensions;
 
-namespace Application.Tests.Unit.Budgets;
+namespace Application.Tests.Unit.Budgets.Commands.CreateBudget;
 
 public class CreateBudgetCommandHandlerTests
 {

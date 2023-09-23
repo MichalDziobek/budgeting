@@ -1,5 +1,6 @@
 using Application.Abstractions;
 using Application.Abstractions.Persistence;
+using Application.Budgets.DataModels;
 using Application.Exceptions;
 using Domain.Entities;
 using Mapster;

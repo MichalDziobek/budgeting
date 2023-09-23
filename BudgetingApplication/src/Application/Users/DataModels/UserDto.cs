@@ -1,4 +1,4 @@
-namespace Application.Users.Queries.DataModels;
+namespace Application.Users.DataModels;
 
 public class UserDto
 {

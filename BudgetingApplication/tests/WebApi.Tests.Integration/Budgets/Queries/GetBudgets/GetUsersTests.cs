@@ -1,22 +1,19 @@
 using System.Net;
 using System.Net.Http.Json;
 using Application.Abstractions;
-using Application.Budgets.Commands.CreateBudget;
+using Application.Budgets.DataModels;
 using Application.Budgets.Queries.GetBudgets;
-using Application.Users.Queries.DataModels;
-using Application.Users.Queries.GetUsers;
 using AutoFixture;
 using Domain.Entities;
 using FluentAssertions;
 using Mapster;
-using Microsoft.AspNetCore.WebUtilities;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using WebApi.Tests.Integration.Common;
 using WebApi.Tests.Integration.Common.Abstractions;
 using Xunit;
 
-namespace WebApi.Tests.Integration.Users.Queries;
+namespace WebApi.Tests.Integration.Budgets.Queries.GetBudgets;
 
 [Collection(nameof(SharedTestCollection))]
 public class GetBudgetsTests : IAsyncLifetime
