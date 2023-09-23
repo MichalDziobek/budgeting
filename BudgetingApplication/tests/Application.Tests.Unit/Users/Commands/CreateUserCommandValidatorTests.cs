@@ -2,7 +2,7 @@ using Application.Users.Commands;
 using AutoFixture;
 using FluentValidation.TestHelper;
 
-namespace Application.Tests.Unit.Users.Command;
+namespace Application.Tests.Unit.Users.Commands;
 
 public class CreateUserCommandValidatorTests
 {

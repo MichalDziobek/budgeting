@@ -7,11 +7,11 @@ using MediatR;
 
 namespace Application.Users.Queries.GetUsers;
 
-public class GetPaginatedUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersResponse>
+public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersResponse>
 {
     private readonly IUsersRepository _usersRepository;
 
-    public GetPaginatedUsersQueryHandler(IUsersRepository usersRepository)
+    public GetUsersQueryHandler(IUsersRepository usersRepository)
     {
         _usersRepository = usersRepository;
     }

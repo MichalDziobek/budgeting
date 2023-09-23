@@ -6,15 +6,15 @@ using AutoFixture;
 using Domain.Entities;
 using NSubstitute.ReturnsExtensions;
 
-namespace Application.Tests.Unit.Users.Command;
+namespace Application.Tests.Unit.Users.Commands;
 
-public class CreateUserCommandTests
+public class CreateUserCommandHandlerTests
 {
     private readonly CreateUserCommandHandler _sut;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUsersRepository _usersRepository;
 
-    public CreateUserCommandTests()
+    public CreateUserCommandHandlerTests()
     {
         _currentUserService = Substitute.For<ICurrentUserService>();
         _usersRepository = Substitute.For<IUsersRepository>();
