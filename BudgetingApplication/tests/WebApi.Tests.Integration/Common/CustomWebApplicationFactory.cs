@@ -1,9 +1,11 @@
 ﻿using System.Data.Common;
+using System.Reflection;
 using Application.Abstractions;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +28,9 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>
     {
         builder.ConfigureAppConfiguration(configurationBuilder =>
         {
+            var configurationPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
             var integrationConfig = new ConfigurationBuilder()
+                .SetBasePath(configurationPath)
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
                 .Build();
