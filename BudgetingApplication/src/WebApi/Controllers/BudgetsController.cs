@@ -1,4 +1,5 @@
 using Application.Budgets.Commands.CreateBudget;
+using Application.Budgets.Commands.ShareBudgetCommand;
 using Application.Budgets.Commands.UpdateBudgetNameCommand;
 using Application.Budgets.Queries.GetBudgets;
 using MediatR;
@@ -36,6 +37,14 @@ public class BudgetsController : ControllerBase
     
     [HttpPatch("{budgetId:int}")]
     public async Task<ActionResult<GetBudgetsResponse>> UpdateName(int budgetId, UpdateBudgetNameCommand command,CancellationToken cancellationToken)
+    {
+        command.BudgetId = budgetId;
+        await _sender.Send(command, cancellationToken);
+        return Ok();
+    }
+    
+    [HttpPut("{budgetId:int}/share")]
+    public async Task<ActionResult<GetBudgetsResponse>> ShareBudget(int budgetId, ShareBudgetCommand command,CancellationToken cancellationToken)
     {
         command.BudgetId = budgetId;
         await _sender.Send(command, cancellationToken);

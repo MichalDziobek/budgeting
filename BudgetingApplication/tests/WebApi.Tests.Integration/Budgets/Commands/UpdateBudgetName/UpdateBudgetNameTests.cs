@@ -60,12 +60,12 @@ public class UpdateBudgetNameTests : IAsyncLifetime
     {
         //Arrange
         var command = BudgetsTestsData.CorrectUpdateNameCommand;
-        var expected = await _testDatabase.FindAsync<Budget, int>(command.BudgetId);
+        var expected = await _testDatabase.FindAsync<Budget, int>(_existingBudgetId);
         expected!.Name = command.Name;
         
         //Act
         var response = await _client.PatchAsJsonAsync(EndpointPath(), command);
-        var entity = await _testDatabase.FindAsync<Budget, int>(command.BudgetId);
+        var entity = await _testDatabase.FindAsync<Budget, int>(_existingBudgetId);
 
         
         //Assert
@@ -106,7 +106,7 @@ public class UpdateBudgetNameTests : IAsyncLifetime
     {
         //Arrange
         var command = BudgetsTestsData.CorrectUpdateNameCommand;
-        await _testDatabase.AddAsync<Budget, int>(BudgetsTestsData.DefaultBudget);
+        // await _testDatabase.AddAsync<Budget, int>(BudgetsTestsData.DefaultBudget);
         
         //Act
         var response = await _client.PatchAsJsonAsync(EndpointPath(-1), command);

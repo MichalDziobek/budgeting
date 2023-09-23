@@ -21,7 +21,8 @@ public class TestDatabase : ITestDatabase
         where TId : notnull
         where TEntity : BaseEntity<TId>
     {
-        return await _dbContext.FindAsync<TEntity>(id);
+        //FirstOrDefaultAsync instead of FindAsync is used to rerun AutoIncludes
+        return await _dbContext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(id));
     }
 
     public async Task<TEntity> AddAsync<TEntity, TId>(TEntity entity)

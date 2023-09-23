@@ -11,9 +11,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
     }
 
-    public DbSet<User> Users = default!;
-    public DbSet<Budget> Budgets = default!;
-    public DbSet<BudgetEntry> BudgetEntries = default!;
+    public DbSet<User> Users { get; set; } = default!;
+    public DbSet<Budget> Budgets { get; set; } = default!;
+    public DbSet<BudgetEntry> BudgetEntries { get; set; } = default!;
+    public DbSet<SharedBudget> SharedBudgets { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -8,4 +8,10 @@ public class BudgetsRepository : GenericRepository<Budget, int>, IBudgetsReposit
     public BudgetsRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
+
+    public async Task AddSharedBudget(SharedBudget sharedBudget, CancellationToken cancellationToken)
+    {
+        _dbContext.SharedBudgets.Add(sharedBudget);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

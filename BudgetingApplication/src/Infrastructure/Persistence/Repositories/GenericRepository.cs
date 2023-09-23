@@ -11,7 +11,7 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
     where TId : notnull
     where TEntity : BaseEntity<TId>
 {
-    private readonly ApplicationDbContext _dbContext;
+    protected readonly ApplicationDbContext _dbContext;
     protected DbSet<TEntity> DbSet => _dbContext.Set<TEntity>();
 
     protected GenericRepository(ApplicationDbContext dbContext)
@@ -28,7 +28,18 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
 
     public async Task<TEntity?> GetById(TId id, CancellationToken cancellationToken = default)
     {
-        return await DbSet.FindAsync(new object[] { id }, cancellationToken);
+        var entity = await DbSet.FindAsync(new object[] { id }, cancellationToken);
+        return entity;
+    }
+    
+    public async Task<TEntity?> GetByIdNoTracking(TId id, CancellationToken cancellationToken = default)
+    {
+        var entity = await DbSet.FindAsync(new object[] { id }, cancellationToken);
+        if (entity is not null)
+        {
+            _dbContext.Entry(entity).State = EntityState.Detached;
+        }
+        return entity;
     }
 
     public Task<bool> Exists(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
