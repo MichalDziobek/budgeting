@@ -40,7 +40,7 @@ public class GetBudgetsQueryHandlerTests
         var expectedResponse = new GetBudgetsResponse
         {
             OwnedBudgets = _users.Where(x => x.OwnerId == userId).Adapt<IEnumerable<BudgetDto>>(),
-            SharedBudgets =  _users.Where(x => x.UsersWithSharedAccess.Any(y => y.Id == userId)).Adapt<IEnumerable<BudgetDto>>()
+            SharedBudgets =  _users.Where(x => x.SharedBudgets.Any(y => y.UserId == userId)).Adapt<IEnumerable<BudgetDto>>()
         };
         var query = new GetBudgetsQuery();
         _currentUserService.UserId.Returns(userId);

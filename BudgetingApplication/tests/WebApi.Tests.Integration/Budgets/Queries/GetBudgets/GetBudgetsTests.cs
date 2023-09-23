@@ -40,12 +40,16 @@ public class GetBudgetsTests : IAsyncLifetime
         };
         _initialBudgets = new List<Budget>()
         {
-            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = _initialUsers[0].Id },
-            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = _initialUsers[0].Id },
-            new() { Id = fixture.Create<int>(), Name = "Budget 3", OwnerId = _initialUsers[1].Id },
-            new() { Id = fixture.Create<int>(), Name = "Budget 4", OwnerId = _initialUsers[1].Id, UsersWithSharedAccess = new List<User>(){ _initialUsers[0] }},
-            new() { Id = fixture.Create<int>(), Name = "Budget 5", OwnerId = _initialUsers[1].Id, UsersWithSharedAccess = new List<User>(){ _initialUsers[0] }},
+            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = OwnerId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = OwnerId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 3", OwnerId = SharedToUserId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 4", OwnerId = SharedToUserId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 5", OwnerId = SharedToUserId },
         };
+        _initialBudgets[3].SharedBudgets = new List<SharedBudget>()
+            { new() { BudgetId = _initialBudgets[3].Id, UserId = OwnerId } };
+        _initialBudgets[4].SharedBudgets = new List<SharedBudget>()
+            { new() { BudgetId = _initialBudgets[4].Id, UserId = OwnerId } };
     }
 
     public async Task InitializeAsync()
@@ -78,7 +82,7 @@ public class GetBudgetsTests : IAsyncLifetime
         var expectedResult = new GetBudgetsResponse
         {
             OwnedBudgets = _initialBudgets.Where(x => x.OwnerId == _currentUserService.UserId).Adapt<IEnumerable<BudgetDto>>(),
-            SharedBudgets = _initialBudgets.Where(x => x.UsersWithSharedAccess.Any(y => y.Id == _currentUserService.UserId))
+            SharedBudgets = _initialBudgets.Where(x => x.SharedBudgets.Any(y => y.UserId == _currentUserService.UserId))
                 .Adapt<IEnumerable<BudgetDto>>(),
         };
 
@@ -102,4 +106,7 @@ public class GetBudgetsTests : IAsyncLifetime
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
+
+    private string OwnerId => _initialUsers[0].Id;
+    private string SharedToUserId => _initialUsers[1].Id;
 }

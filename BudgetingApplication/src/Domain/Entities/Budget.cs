@@ -7,7 +7,6 @@ public class Budget : BaseEntity<int>
     public string OwnerId = string.Empty;
     public User Owner { get; set; } = default!;
 
-    public ICollection<User> UsersWithSharedAccess { get; set; } = new List<User>();
     public ICollection<SharedBudget> SharedBudgets { get; set; } = new List<SharedBudget>();
 
     public ICollection<BudgetEntry> BudgetEntries { get; set; } = new List<BudgetEntry>();
