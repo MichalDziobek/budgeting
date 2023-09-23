@@ -1,11 +1,12 @@
 using Application.Abstractions.Persistance;
+using Application.Tests.Unit.Extensions;
 using Application.Users.Queries.DataModels;
 using Application.Users.Queries.GetUsers;
 using AutoFixture;
 using Domain.Entities;
 using Mapster;
 
-namespace Application.Tests.Unit.Users.Commands;
+namespace Application.Tests.Unit.Users.Queries.GetUsers;
 
 public class GetUsersQueryHandlerTests
 {

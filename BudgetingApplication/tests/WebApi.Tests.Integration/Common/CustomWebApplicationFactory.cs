@@ -83,5 +83,5 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>
         });
     }
 
-    public ITestDatabase GetTestRepository() => Services.GetRequiredService<ITestDatabase>();
+    public ITestDatabase GetTestDatabase() => Services.GetRequiredService<ITestDatabase>();
 }

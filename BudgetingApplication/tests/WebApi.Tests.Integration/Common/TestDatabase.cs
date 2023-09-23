@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Respawn;
@@ -17,19 +18,30 @@ public class TestDatabase : ITestDatabase
     }
 
     public async Task<TEntity?> FindAsync<TEntity, TId>(TId id)
-        where TEntity : class
+        where TId : notnull
+        where TEntity : BaseEntity<TId>
     {
         return await _dbContext.FindAsync<TEntity>(id);
     }
 
-    public async Task AddAsync<TEntity>(TEntity entity)
-        where TEntity : class
+    public async Task AddAsync<TEntity, TId>(TEntity entity)
+        where TId : notnull
+        where TEntity : BaseEntity<TId>
     {
         _dbContext.Add(entity);
 
         await _dbContext.SaveChangesAsync();
     }
-    
+
+    public async Task AddRangeAsync<TEntity, TId>(IEnumerable<TEntity> entity)
+        where TEntity : BaseEntity<TId>
+        where TId : notnull
+    {
+        _dbContext.AddRange(entity);
+
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task ResetAsync()
     {
         await using var dbConnection = _dbContext.Database.GetDbConnection();

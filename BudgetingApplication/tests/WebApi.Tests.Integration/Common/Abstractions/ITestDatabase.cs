@@ -1,12 +1,20 @@
+using Domain.Entities;
+
 namespace WebApi.Tests.Integration.Common.Abstractions;
 
 public interface ITestDatabase
 {
     Task<TEntity?> FindAsync<TEntity, TId>(TId id)
-        where TEntity : class;
+        where TId : notnull
+        where TEntity : BaseEntity<TId>;
 
-    Task AddAsync<TEntity>(TEntity entity)
-        where TEntity : class;
+    Task AddAsync<TEntity, TId>(TEntity entity)
+        where TId : notnull
+        where TEntity : BaseEntity<TId>;
+    
+    Task AddRangeAsync<TEntity, TId>(IEnumerable<TEntity> entity)
+        where TId : notnull
+        where TEntity : BaseEntity<TId>;
 
     Task ResetAsync();
 }

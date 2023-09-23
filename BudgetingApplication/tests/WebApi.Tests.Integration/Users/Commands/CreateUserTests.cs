@@ -12,47 +12,25 @@ using Xunit;
 
 namespace WebApi.Tests.Integration.Users.Commands;
 
-public class UserTestsData
-{
-    public const string CorrectEmail = "correct-email@example.com";
-    public const string CorrectName = "Jane Doe";
-    public const string DefaultUserId = "auth0|12345";
-
-    public static CreateUserCommand CorrectCreateUserCommand => new CreateUserCommand
-    {
-        Email = CorrectEmail,
-        FullName = CorrectName
-    };
-
-    public static User DefaultUser => new User
-    {
-        Id = DefaultUserId,
-        FullName = CorrectName,
-        Email = CorrectEmail,
-    };
-}
-
 [Collection(nameof(SharedTestCollection))]
 public class CreateUserTests : IAsyncLifetime
 {
+    private const string PathPrefix = "users";
+
     private readonly HttpClient _client;
     private readonly ICurrentUserService _currentUserService;
     private readonly ITestDatabase _testDatabase;
-    private readonly Func<Task> _resetDb;
-    private readonly Func<string, Task<User?>> _findUser;
 
     public CreateUserTests(CustomWebApplicationFactory apiFactory)
     {
         _client = apiFactory.CreateClient();
         _currentUserService = apiFactory.CurrentUserService;
-        _testDatabase = apiFactory.GetTestRepository();
-        // _resetDb = apiFactory.ResetDatabaseAsync;
-        // _findUser = apiFactory.FindAsync<User, string>;
+        _testDatabase = apiFactory.GetTestDatabase();
     }
 
     public Task InitializeAsync() => Task.CompletedTask;
 
-    public Task DisposeAsync() => _testDatabase.ResetAsync();
+    public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
     [Fact]
     public async Task Create_ShouldReturnOk_OnCorrectRequest()
@@ -62,7 +40,7 @@ public class CreateUserTests : IAsyncLifetime
         _currentUserService.UserId.Returns(UserTestsData.DefaultUserId);
         
         //Act
-        var response = await _client.PostAsJsonAsync("users", command);
+        var response = await _client.PostAsJsonAsync(PathPrefix, command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -77,7 +55,7 @@ public class CreateUserTests : IAsyncLifetime
         var expected = UserTestsData.DefaultUser;
         
         //Act
-        _ = await _client.PostAsJsonAsync("users", command);
+        _ = await _client.PostAsJsonAsync(PathPrefix, command);
         var entity = await _testDatabase.FindAsync<User, string>(UserTestsData.DefaultUserId);
         
         //Assert
@@ -100,7 +78,7 @@ public class CreateUserTests : IAsyncLifetime
         _currentUserService.UserId.Returns(UserTestsData.DefaultUserId);
         
         //Act
-        var response = await _client.PostAsJsonAsync("users", command);
+        var response = await _client.PostAsJsonAsync(PathPrefix, command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -114,7 +92,7 @@ public class CreateUserTests : IAsyncLifetime
         _currentUserService.UserId.ReturnsNull();
         
         //Act
-        var response = await _client.PostAsJsonAsync("users", command);
+        var response = await _client.PostAsJsonAsync(PathPrefix, command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -125,11 +103,11 @@ public class CreateUserTests : IAsyncLifetime
     {
         //Arrange
         var command = UserTestsData.CorrectCreateUserCommand;
-        await _testDatabase.AddAsync(UserTestsData.DefaultUser);
+        await _testDatabase.AddAsync<User, string>(UserTestsData.DefaultUser);
         _currentUserService.UserId.Returns(UserTestsData.DefaultUserId);
         
         //Act
-        var response = await _client.PostAsJsonAsync("users", command);
+        var response = await _client.PostAsJsonAsync(PathPrefix, command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

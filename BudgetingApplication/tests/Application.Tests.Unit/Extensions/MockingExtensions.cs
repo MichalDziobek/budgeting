@@ -3,7 +3,7 @@ using Application.Abstractions.Persistance;
 using Domain.Entities;
 using NSubstitute.Core;
 
-namespace Application.Tests.Unit.Users.Commands;
+namespace Application.Tests.Unit.Extensions;
 
 public static class MockingExtensions
 {

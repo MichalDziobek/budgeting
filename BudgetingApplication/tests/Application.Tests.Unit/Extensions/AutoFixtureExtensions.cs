@@ -1,6 +1,6 @@
 using AutoFixture;
 
-namespace Application.Tests.Unit.Users.Commands;
+namespace Application.Tests.Unit.Extensions;
 
 public static class AutoFixtureExtensions
 {
