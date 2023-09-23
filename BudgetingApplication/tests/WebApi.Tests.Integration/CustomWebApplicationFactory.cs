@@ -9,11 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using Respawn;
 
 namespace WebApi.Tests.Integration;
-
-using static Testing;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>
 {
@@ -39,7 +38,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>
         builder.ConfigureServices((webHostBuilderContext, services) =>
         {
             CurrentUserService = Substitute.For<ICurrentUserService>();
-            CurrentUserService.UserId.Returns(GetCurrentUserId());
+            CurrentUserService.UserId.ReturnsNull();
             services
                 .Remove<ICurrentUserService>()
                 .AddTransient(_ => CurrentUserService);
