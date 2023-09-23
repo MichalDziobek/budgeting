@@ -30,10 +30,10 @@ public class CreateBudgetsTests : IAsyncLifetime
         _testDatabase = apiFactory.GetTestDatabase();
         
         _currentUserService.UserId.Returns(UserTestsData.DefaultUserId);
-        _testDatabase.AddAsync<User, string>(UserTestsData.DefaultUser);
+        
     }
 
-    public Task InitializeAsync() => Task.CompletedTask;
+    public async Task InitializeAsync() => await _testDatabase.AddAsync<User, string>(UserTestsData.DefaultUser);
 
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
