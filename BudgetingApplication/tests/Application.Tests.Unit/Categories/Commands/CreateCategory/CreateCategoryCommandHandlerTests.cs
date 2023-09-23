@@ -11,11 +11,11 @@ namespace Application.Tests.Unit.Categories.Commands.CreateCategory;
 public class CreateCategoryCommandHandlerTests
 {
     private readonly CreateCategoryCommandHandler _sut;
-    private readonly IBudgetEntryCategoriesRepository _categoriesRepository;
+    private readonly ICategoriesRepository _categoriesRepository;
 
     public CreateCategoryCommandHandlerTests()
     {
-        _categoriesRepository = Substitute.For<IBudgetEntryCategoriesRepository>();
+        _categoriesRepository = Substitute.For<ICategoriesRepository>();
         _sut = new CreateCategoryCommandHandler(_categoriesRepository);
     }
 

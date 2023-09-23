@@ -22,7 +22,7 @@ public static class ConfigureServices
         services.AddTransient<IUsersRepository, UsersRepository>();
         services.AddTransient<IBudgetsRepository, BudgetsRepository>();
         services.AddTransient<IBudgetEntriesRepository, BudgetEntriesRepository>();
-        services.AddTransient<IBudgetEntryCategoriesRepository, BudgetEntryCategoriesRepository>();
+        services.AddTransient<ICategoriesRepository, CategoriesRepository>();
         
         
         return services;

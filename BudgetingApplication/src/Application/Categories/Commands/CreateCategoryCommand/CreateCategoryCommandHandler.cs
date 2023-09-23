@@ -10,9 +10,9 @@ namespace Application.Categories.Commands.CreateCategoryCommand;
 
 public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, CreateCategoryResponse>
 {
-    private readonly IBudgetEntryCategoriesRepository _categoriesRepository;
+    private readonly ICategoriesRepository _categoriesRepository;
 
-    public CreateCategoryCommandHandler(IBudgetEntryCategoriesRepository categoriesRepository)
+    public CreateCategoryCommandHandler(ICategoriesRepository categoriesRepository)
     {
         _categoriesRepository = categoriesRepository;
     }
