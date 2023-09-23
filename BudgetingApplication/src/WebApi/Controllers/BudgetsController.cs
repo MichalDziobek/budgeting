@@ -1,4 +1,5 @@
 using Application.Budgets.Commands.CreateBudget;
+using Application.Budgets.Queries.GetBudgets;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,13 @@ public class BudgetsController : ControllerBase
         CancellationToken cancellationToken)
     {
         var result = await _sender.Send(command, cancellationToken);
+        return Ok(result);
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<GetBudgetsResponse>> Get(CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(new GetBudgetsQuery(), cancellationToken);
         return Ok(result);
     }
 }

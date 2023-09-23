@@ -1,6 +1,5 @@
 ﻿using Application.Abstractions;
 using Application.Abstractions.Persistence;
-using Domain.Entities;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
