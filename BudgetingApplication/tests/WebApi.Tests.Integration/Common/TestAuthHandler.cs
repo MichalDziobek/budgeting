@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace WebApi.Tests.Integration;
+namespace WebApi.Tests.Integration.Common;
 
 public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
@@ -27,18 +27,15 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var claims = new List<Claim> { new Claim(ClaimTypes.Name, "Test user") };
-
-        // Extract User ID from the request headers if it exists,
-        // otherwise use the default User ID from the options.
-        if (Context.Request.Headers.TryGetValue(UserId, out var userId))
+        var claims = new List<Claim>
         {
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, userId[0] ?? string.Empty));
-        }
-        else
-        {
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, _currentUserService.UserId ?? string.Empty));
-        }
+            new(ClaimTypes.Name, "Test user"),
+            // Extract User ID from the request headers if it exists,
+            // otherwise use the default User ID from the options.
+            Context.Request.Headers.TryGetValue(UserId, out var userId)
+                ? new Claim(ClaimTypes.NameIdentifier, userId[0] ?? string.Empty)
+                : new Claim(ClaimTypes.NameIdentifier, _currentUserService.UserId ?? string.Empty)
+        };
 
         var identity = new ClaimsIdentity(claims, AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);

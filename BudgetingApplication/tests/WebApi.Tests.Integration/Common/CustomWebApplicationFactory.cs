@@ -11,16 +11,15 @@ using Npgsql;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Respawn;
+using WebApi.Tests.Integration.Common.Abstractions;
 
-namespace WebApi.Tests.Integration;
+namespace WebApi.Tests.Integration.Common;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>
 {
-    public HttpClient HttpClient { get; private set; } = default!;
     public ICurrentUserService CurrentUserService { get; private set; } = default!;
     
     private string _connectionString = string.Empty;
-    private Respawner _respawner = default!;
     private DbConnection _dbConnection = default!;
     
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -55,30 +54,30 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>
                 .Remove<DbContextOptions<ApplicationDbContext>>()
                 .AddDbContext<ApplicationDbContext>((sp, options) =>
                     options.UseNpgsql(_connectionString,
-                        optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                        optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)),
+                    ServiceLifetime.Transient, ServiceLifetime.Singleton);
 
             var serviceProvider = services.BuildServiceProvider();
+            
             using var scope = serviceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            
 
             dbContext.Database.EnsureDeleted();
             dbContext.Database.Migrate();
             _dbConnection = new NpgsqlConnection(_connectionString);
             _dbConnection.Open();
             
-            _respawner = Respawner.CreateAsync(_dbConnection, new RespawnerOptions
+            var respawner = Respawner.CreateAsync(_dbConnection, new RespawnerOptions
             {
                 DbAdapter = DbAdapter.Postgres,
                 TablesToIgnore = new Respawn.Graph.Table[] { "__EFMigrationsHistory" }
             }).GetAwaiter().GetResult();
+
+            services.AddTransient(_ => respawner);
+            services.AddTransient<ITestDatabase, TestDatabase>();
         });
     }
 
-    public async Task ResetDatabaseAsync()
-    {
-        await _respawner.ResetAsync(_dbConnection);
-        await _dbConnection.CloseAsync();
-        await _dbConnection.DisposeAsync();
-    }
-
+    public ITestDatabase GetTestRepository() => Services.GetRequiredService<ITestDatabase>();
 }
