@@ -12,11 +12,11 @@ public static class MockingExtensions
         where TId : notnull
         where TEntity : BaseEntity<TId>
     {
-        return repository.GetCollection(Arg.Any<Expression<Func<TEntity, bool>>>(), Arg.Any<CancellationToken>())
+        return repository.GetCollection(Arg.Any<Func<IQueryable<TEntity>, IQueryable<TEntity>>>(), Arg.Any<CancellationToken>())
             .Returns(info =>
             {
-                var predicate = info.Arg<Expression<Func<TEntity, bool>>>()?.Compile();
-                return predicate is null ? mockData.ToList() : mockData.Where(x => predicate(x)).ToList();
+                var filters = info.Arg<Func<IQueryable<TEntity>, IQueryable<TEntity>>>();
+                return filters is null ? mockData.ToList() : filters(mockData.AsQueryable()).ToList();
             });
     }
     

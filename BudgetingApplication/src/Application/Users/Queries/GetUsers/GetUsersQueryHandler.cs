@@ -18,21 +18,30 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersRespo
 
     public async Task<GetUsersResponse> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
-        Expression<Func<User, bool>>? predicate = request switch
-        {
-            { EmailSearchQuery: not null, FullNameSearchQuery: not null } =>
-                user => user.FullName.Contains(request.FullNameSearchQuery) && user.Email.Contains(request.EmailSearchQuery),
-            { EmailSearchQuery: not null } => user => user.Email.Contains(request.EmailSearchQuery),
-            { FullNameSearchQuery: not null } =>  user => user.FullName.Contains(request.FullNameSearchQuery),
-            _ => null
-            
-        };
+        var filters = GetFilters(request);
 
-        var userDtos = (await _usersRepository.GetCollection(predicate, cancellationToken)).Adapt<IEnumerable<UserDto>>();
+        var userDtos = (await _usersRepository.GetCollection(filters, cancellationToken)).Adapt<IEnumerable<UserDto>>();
         var response = new GetUsersResponse
         {
             Users = userDtos
         };
         return response;
+    }
+
+    private static Func<IQueryable<User>, IQueryable<User>> GetFilters(GetUsersQuery request)
+    {
+        Func<IQueryable<User>, IQueryable<User>> filters = users => users;
+        if (request.EmailSearchQuery is not null)
+        {
+            filters = users => users.Where(user => user.Email.Contains(request.EmailSearchQuery));
+        }
+
+        if (request.FullNameSearchQuery is not null)
+        {
+            var filtersCopy = filters;
+            filters = users => filtersCopy(users).Where(user => user.FullName.Contains(request.FullNameSearchQuery));
+        }
+
+        return filters;
     }
 }

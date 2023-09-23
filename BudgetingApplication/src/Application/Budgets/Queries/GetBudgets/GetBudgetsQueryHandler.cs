@@ -27,8 +27,8 @@ public class GetBudgetsQueryHandler : IRequestHandler<GetBudgetsQuery, GetBudget
         }
 
         var budgets = await _budgetsRepository.GetCollection(
-            x => x.OwnerId == _currentUserService.UserId ||
-                 x.SharedBudgets.Any(y => y.UserId == _currentUserService.UserId), cancellationToken);
+            queryable => queryable.Where(x => x.OwnerId == _currentUserService.UserId ||
+                 x.SharedBudgets.Any(y => y.UserId == _currentUserService.UserId)), cancellationToken);
 
         var response = new GetBudgetsResponse
         {

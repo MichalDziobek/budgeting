@@ -31,42 +31,32 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
         var entity = await DbSet.FindAsync(new object[] { id }, cancellationToken);
         return entity;
     }
-    
-    public async Task<TEntity?> GetByIdNoTracking(TId id, CancellationToken cancellationToken = default)
-    {
-        var entity = await DbSet.FindAsync(new object[] { id }, cancellationToken);
-        if (entity is not null)
-        {
-            _dbContext.Entry(entity).State = EntityState.Detached;
-        }
-        return entity;
-    }
 
     public Task<bool> Exists(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
     {
         return DbSet.Where(predicate).AnyAsync(cancellationToken);
     }
 
-    public async Task<List<TEntity>> GetCollection(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
+    public async Task<List<TEntity>> GetCollection(Func<IQueryable<TEntity>, IQueryable<TEntity>>? filters = null, CancellationToken cancellationToken = default)
     {
         var queryable = DbSet.AsQueryable();
 
-        if (predicate is not null)
+        if (filters is not null)
         {
-            queryable = queryable.Where(predicate);
+            queryable = filters(queryable);
         }
 
         return await queryable.ToListAsync(cancellationToken);
     }
 
     public async Task<PaginatedResponse<TEntity>> GetPaginatedResponse(int offset, int limit,
-        Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
+        Func<IQueryable<TEntity>, IQueryable<TEntity>>? filters = null, CancellationToken cancellationToken = default)
     {
         var queryable = DbSet.AsQueryable();
 
-        if (predicate is not null)
+        if (filters is not null)
         {
-            queryable = queryable.Where(predicate);
+            queryable = filters(queryable);
         }
 
         return await queryable.ToPaginatedListAsync(offset, limit, cancellationToken);

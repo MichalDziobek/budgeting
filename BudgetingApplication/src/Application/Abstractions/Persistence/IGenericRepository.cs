@@ -10,14 +10,13 @@ public interface IGenericRepository<TEntity, in TId>
 {
     public Task<TEntity> Create(TEntity entity, CancellationToken cancellationToken = default);
     public Task<TEntity?> GetById(TId id, CancellationToken cancellationToken = default);
-    public Task<TEntity?> GetByIdNoTracking(TId id, CancellationToken cancellationToken = default);
     public Task<bool> Exists(Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default);
 
-    public Task<List<TEntity>> GetCollection(Expression<Func<TEntity, bool>>? predicate = null,
+    public Task<List<TEntity>> GetCollection(Func<IQueryable<TEntity>, IQueryable<TEntity>>? filters = null,
         CancellationToken cancellationToken = default);
     public Task<PaginatedResponse<TEntity>> GetPaginatedResponse(int offset, int limit, 
-        Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default);
+        Func<IQueryable<TEntity>, IQueryable<TEntity>>? filters = null, CancellationToken cancellationToken = default);
     public Task<TEntity> Update(TEntity newEntityState, CancellationToken cancellationToken = default);
     public Task Delete(TId id, CancellationToken cancellationToken = default);
 
