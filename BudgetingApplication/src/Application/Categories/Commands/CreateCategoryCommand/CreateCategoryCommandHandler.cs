@@ -1,5 +1,4 @@
 using Application.Abstractions.Persistence;
-using Application.Budgets.DataModels;
 using Application.Categories.DataModel;
 using Application.Exceptions;
 using Domain.Entities;

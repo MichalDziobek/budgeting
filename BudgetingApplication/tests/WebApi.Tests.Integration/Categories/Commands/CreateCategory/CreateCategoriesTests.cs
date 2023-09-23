@@ -1,14 +1,12 @@
 using System.Net;
 using System.Net.Http.Json;
 using Application.Abstractions;
-using Application.Budgets.DataModels;
 using Application.Categories.Commands.CreateCategoryCommand;
 using Application.Categories.DataModel;
 using Domain.Entities;
 using FluentAssertions;
 using Mapster;
 using NSubstitute;
-using NSubstitute.ReturnsExtensions;
 using WebApi.Tests.Integration.Common;
 using WebApi.Tests.Integration.Common.Abstractions;
 using WebApi.Tests.Integration.Users;

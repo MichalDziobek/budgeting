@@ -1,6 +1,5 @@
 using Application.Categories.Commands.CreateCategoryCommand;
 using Domain.Entities;
-using WebApi.Tests.Integration.Users;
 
 namespace WebApi.Tests.Integration.Categories;
 

@@ -1,4 +1,3 @@
-using Application.Budgets.DataModels;
 using Application.Categories.DataModel;
 
 namespace Application.Categories.Commands.CreateCategoryCommand;
