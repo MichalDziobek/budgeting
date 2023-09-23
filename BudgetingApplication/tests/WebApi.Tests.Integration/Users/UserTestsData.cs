@@ -1,4 +1,4 @@
-using Application.Users.Commands;
+using Application.Users.Commands.CreateUser;
 using Domain.Entities;
 
 namespace WebApi.Tests.Integration.Users;

@@ -14,7 +14,7 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
     private readonly ApplicationDbContext _dbContext;
     protected DbSet<TEntity> DbSet => _dbContext.Set<TEntity>();
 
-    public GenericRepository(ApplicationDbContext dbContext)
+    protected GenericRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -29,6 +29,11 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
     public async Task<TEntity?> GetById(TId id, CancellationToken cancellationToken = default)
     {
         return await DbSet.FindAsync(new object[] { id }, cancellationToken);
+    }
+
+    public Task<bool> Exists(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return DbSet.Where(predicate).AnyAsync(cancellationToken);
     }
 
     public async Task<List<TEntity>> GetCollection(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)

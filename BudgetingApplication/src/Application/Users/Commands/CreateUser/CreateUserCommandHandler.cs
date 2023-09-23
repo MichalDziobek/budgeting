@@ -5,7 +5,7 @@ using Domain.Entities;
 using Mapster;
 using MediatR;
 
-namespace Application.Users.Commands;
+namespace Application.Users.Commands.CreateUser;
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
 {
@@ -20,7 +20,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
 
     public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = request.Adapt<User>();
         if (_currentUserService.UserId is null)
         {
             throw new UnauthorizedException("User does not have valid id in token");
@@ -31,6 +30,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
             throw new BadRequestException("This user already exists");
         }
 
+        var user = request.Adapt<User>();
         user.Id = _currentUserService.UserId;
 
         await _usersRepository.Create(user, cancellationToken);

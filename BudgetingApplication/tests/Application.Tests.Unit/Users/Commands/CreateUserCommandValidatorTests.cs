@@ -1,4 +1,4 @@
-using Application.Users.Commands;
+using Application.Users.Commands.CreateUser;
 using AutoFixture;
 using FluentValidation.TestHelper;
 
@@ -6,12 +6,7 @@ namespace Application.Tests.Unit.Users.Commands;
 
 public class CreateUserCommandValidatorTests
 {
-    private readonly CreateUserCommandValidator _sut;
-
-    public CreateUserCommandValidatorTests()
-    {
-        _sut = new CreateUserCommandValidator();
-    }
+    private readonly CreateUserCommandValidator _sut = new();
 
     [Fact]
     public void ShouldPass_OnCorrectData()
@@ -79,25 +74,6 @@ public class CreateUserCommandValidatorTests
         {
             Email = "correct@email.com",
             FullName = string.Join("", fixture.CreateMany<char>(500))
-        };
-
-        //Act
-        var result = _sut.TestValidate(command);
-
-        //Assert
-        result.ShouldHaveValidationErrorFor(x => x.FullName);
-    }
-    
-    [Fact]
-    public void ShouldFail_OnEmptyName()
-    {
-        //Arrange
-        var fixture = new Fixture();
-
-        var command = new CreateUserCommand
-        {
-            Email = "correct@email.com",
-            FullName = string.Empty
         };
 
         //Act

@@ -1,7 +1,7 @@
 using Application.Abstractions;
 using Application.Abstractions.Persistence;
 using Application.Exceptions;
-using Application.Users.Commands;
+using Application.Users.Commands.CreateUser;
 using AutoFixture;
 using Domain.Entities;
 using NSubstitute.ReturnsExtensions;

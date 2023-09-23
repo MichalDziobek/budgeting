@@ -10,6 +10,8 @@ public interface IGenericRepository<TEntity, in TId>
 {
     public Task<TEntity> Create(TEntity entity, CancellationToken cancellationToken = default);
     public Task<TEntity?> GetById(TId id, CancellationToken cancellationToken = default);
+    public Task<bool> Exists(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default);
 
     public Task<List<TEntity>> GetCollection(Expression<Func<TEntity, bool>>? predicate = null,
         CancellationToken cancellationToken = default);

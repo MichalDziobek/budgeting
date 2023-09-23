@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using Application.Abstractions;
-using Application.Users.Commands;
+using Application.Users.Commands.CreateUser;
 using Domain.Entities;
 using FluentAssertions;
 using NSubstitute;

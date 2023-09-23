@@ -1,4 +1,4 @@
-using Application.Users.Commands;
+using Application.Users.Commands.CreateUser;
 using Application.Users.Queries.GetUsers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

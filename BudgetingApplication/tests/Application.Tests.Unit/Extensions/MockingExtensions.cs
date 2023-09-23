@@ -19,4 +19,17 @@ public static class MockingExtensions
                 return predicate is null ? mockData.ToList() : mockData.Where(x => predicate(x)).ToList();
             });
     }
+    
+    public static ConfiguredCall MockExists<TEntity, TId>(this IGenericRepository<TEntity, TId> repository,
+        IEnumerable<TEntity> mockData)
+        where TId : notnull
+        where TEntity : BaseEntity<TId>
+    {
+        return repository.Exists(Arg.Any<Expression<Func<TEntity, bool>>>(), Arg.Any<CancellationToken>())
+            .Returns(info =>
+            {
+                var predicate = info.Arg<Expression<Func<TEntity, bool>>>()?.Compile();
+                return predicate is not null && mockData.Any(x => predicate(x));
+            });
+    }
 }
