@@ -19,17 +19,15 @@ namespace WebApi.Tests.Integration.BudgetEntries.Command.CreateBudgetEntry;
 [Collection(nameof(SharedTestCollection))]
 public class CreateBudgetEntryTests : IAsyncLifetime
 {
-    private string EndpointPath(int? budgetId = null) => $"budgets/{budgetId ?? _ownedBudgetId}/budgetEntries/";
+    private string EndpointPath(int? budgetId = null) => $"budgets/{budgetId ?? OwnedBudgetId}/budgetEntries/";
 
     private readonly HttpClient _client;
     private readonly ICurrentUserService _currentUserService;
     private readonly ITestDatabase _testDatabase;
-    private readonly int _ownedBudgetId;
-    private readonly int _sharedBudgetId;
     
-    private readonly List<User> _initialUsers;
-    private readonly List<Budget> _initialBudgets;
-    private readonly Category _existingCategory;
+    private List<User> _initialUsers = new();
+    private List<Budget> _initialBudgets = new();
+    private Category _existingCategory = new();
 
     public CreateBudgetEntryTests(CustomWebApplicationFactory apiFactory)
     {
@@ -37,29 +35,9 @@ public class CreateBudgetEntryTests : IAsyncLifetime
         _currentUserService = apiFactory.CurrentUserService;
         _testDatabase = apiFactory.GetTestDatabase();
         
-        _currentUserService.UserId.Returns(UserTestsData.DefaultUserId);
-        var fixture = new Fixture();
-
-        _initialUsers = new List<User>()
-        {
-            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
-            new() { Id = fixture.Create<string>(), FullName = "Jane Doe", Email = "jane.doe@example.com" },
-        };
-        _initialBudgets = new List<Budget>()
-        {
-            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = OwnerId },
-            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = OtherUserId },
-        };
-        _ownedBudgetId = _initialBudgets[0].Id;
-        _sharedBudgetId = _initialBudgets[1].Id;
-        
-        _existingCategory = new() { Id = fixture.Create<int>(), Name = "Category 1" };
-        
-        _initialBudgets[1].SharedBudgets = new List<SharedBudget>()
-            { new() { BudgetId = _initialBudgets[1].Id, UserId = OwnerId } };
+        SetTestData();
 
         _currentUserService.UserId.Returns(OwnerId);
-
     }
 
     public async Task InitializeAsync()
@@ -75,10 +53,10 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     public async Task Create_ShouldReturnOk_OnCorrectRequestForOwner()
     {
         //Arrange
-        var command = BudgetEntriesTestsData.CorrectCreateCommand(_ownedBudgetId, _existingCategory.Id);
+        var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
         
         //Act
-        var response = await _client.PostAsJsonAsync(EndpointPath(_ownedBudgetId), command);
+        var response = await _client.PostAsJsonAsync(EndpointPath(OwnedBudgetId), command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -88,10 +66,10 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     public async Task Create_ShouldReturnOk_OnCorrectRequestForShared()
     {
         //Arrange
-        var command = BudgetEntriesTestsData.CorrectCreateCommand(_sharedBudgetId, _existingCategory.Id);
+        var command = BudgetEntriesTestsData.CorrectCreateCommand(SharedBudgetId, _existingCategory.Id);
         
         //Act
-        var response = await _client.PostAsJsonAsync(EndpointPath(_sharedBudgetId), command);
+        var response = await _client.PostAsJsonAsync(EndpointPath(SharedBudgetId), command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -101,10 +79,10 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     public async Task Create_ShouldReturnId_OnCorrectRequest()
     {
         //Arrange
-        var command = BudgetEntriesTestsData.CorrectCreateCommand(_ownedBudgetId, _existingCategory.Id);
+        var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
         
         //Act
-        var response = await _client.PostAsJsonAsync(EndpointPath(_ownedBudgetId), command);
+        var response = await _client.PostAsJsonAsync(EndpointPath(OwnedBudgetId), command);
         var result = await response.Content.ReadFromJsonAsync<CreateBudgetEntryResponse>();
         
         //Assert
@@ -116,14 +94,14 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     public async Task Create_ShouldReturnCorrectResponse_OnCorrectRequest()
     {
         //Arrange
-        var command = BudgetEntriesTestsData.CorrectCreateCommand(_ownedBudgetId, _existingCategory.Id);
+        var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
         var expected = new CreateBudgetEntryResponse()
         {
-            BudgetEntry = BudgetEntriesTestsData.DefaultEntity(_ownedBudgetId, _existingCategory.Id).Adapt<BudgetEntryDto>()
+            BudgetEntry = BudgetEntriesTestsData.DefaultEntity(OwnedBudgetId, _existingCategory.Id).Adapt<BudgetEntryDto>()
         };
 
         //Act
-        var response = await _client.PostAsJsonAsync(EndpointPath(_ownedBudgetId), command);
+        var response = await _client.PostAsJsonAsync(EndpointPath(OwnedBudgetId), command);
         var result = await response.Content.ReadFromJsonAsync<CreateBudgetEntryResponse>();
         
         //Assert
@@ -135,13 +113,13 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     public async Task Create_ShouldAddToDb_OnCorrectRequest()
     {
         //Arrange
-        var command = BudgetEntriesTestsData.CorrectCreateCommand(_ownedBudgetId, _existingCategory.Id);
-        var expected = BudgetEntriesTestsData.DefaultEntity(_ownedBudgetId, _existingCategory.Id);
+        var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
+        var expected = BudgetEntriesTestsData.DefaultEntity(OwnedBudgetId, _existingCategory.Id);
         
         //Act
-        var response = await _client.PostAsJsonAsync(EndpointPath(_ownedBudgetId), command);
+        var response = await _client.PostAsJsonAsync(EndpointPath(OwnedBudgetId), command);
         var result = await response.Content.ReadFromJsonAsync<CreateBudgetEntryResponse>();
-        var entity = await _testDatabase.FindAsync<BudgetEntry, int>(result?.BudgetEntry?.Id ?? default);
+        var entity = await _testDatabase.FindAsync<BudgetEntry, int>(result?.BudgetEntry.Id ?? default);
         
         //Assert
         entity.Should().BeEquivalentTo(expected, x => x.Excluding(y => y.Id)
@@ -157,11 +135,11 @@ public class CreateBudgetEntryTests : IAsyncLifetime
         var command = new CreateBudgetEntryCommand()
         {
             Name = name,
-            BudgetId = _ownedBudgetId
+            BudgetId = OwnedBudgetId
         };
         
         //Act
-        var response = await _client.PostAsJsonAsync(EndpointPath(_ownedBudgetId), command);
+        var response = await _client.PostAsJsonAsync(EndpointPath(OwnedBudgetId), command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -171,11 +149,11 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     public async Task Create_ShouldReturnUnauthorized_WhenUserIdIsEmpty()
     {
         //Arrange
-        var command = BudgetEntriesTestsData.CorrectCreateCommand(_ownedBudgetId, _existingCategory.Id);
+        var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
         _currentUserService.UserId.ReturnsNull();
         
         //Act
-        var response = await _client.PostAsJsonAsync(EndpointPath(_ownedBudgetId), command);
+        var response = await _client.PostAsJsonAsync(EndpointPath(OwnedBudgetId), command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -200,10 +178,10 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     {
         //Arrange
         var notExistingCategoryId = -1;
-        var command = BudgetEntriesTestsData.CorrectCreateCommand(_ownedBudgetId, notExistingCategoryId);
+        var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, notExistingCategoryId);
         
         //Act
-        var response = await _client.PostAsJsonAsync(EndpointPath(_ownedBudgetId), command);
+        var response = await _client.PostAsJsonAsync(EndpointPath(OwnedBudgetId), command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -214,10 +192,10 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     {
         //Arrange
         _currentUserService.UserId.Returns(OtherUserId);
-        var command = BudgetEntriesTestsData.CorrectCreateCommand(_ownedBudgetId, _existingCategory.Id);
+        var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
         
         //Act
-        var response = await _client.PostAsJsonAsync(EndpointPath(_ownedBudgetId), command);
+        var response = await _client.PostAsJsonAsync(EndpointPath(OwnedBudgetId), command);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -225,4 +203,28 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     
     private string OwnerId => _initialUsers[0].Id;
     private string OtherUserId => _initialUsers[1].Id;
+    private int OwnedBudgetId => _initialBudgets[0].Id;
+    private int SharedBudgetId => _initialBudgets[1].Id;
+    
+    private void SetTestData()
+    {
+        _currentUserService.UserId.Returns(UserTestsData.DefaultUserId);
+        var fixture = new Fixture();
+
+        _initialUsers = new List<User>()
+        {
+            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
+            new() { Id = fixture.Create<string>(), FullName = "Jane Doe", Email = "jane.doe@example.com" },
+        };
+        _initialBudgets = new List<Budget>()
+        {
+            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = OwnerId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = OtherUserId },
+        };
+
+        _existingCategory = new() { Id = fixture.Create<int>(), Name = "Category 1" };
+
+        _initialBudgets[1].SharedBudgets = new List<SharedBudget>()
+            { new() { BudgetId = _initialBudgets[1].Id, UserId = OwnerId } };
+    }
 }

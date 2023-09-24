@@ -15,7 +15,7 @@ using WebApi.Tests.Integration.Common.Abstractions;
 using WebApi.Tests.Integration.Users;
 using Xunit;
 
-namespace WebApi.Tests.Integration.BudgetEntries.Command.UpdateBudetEntry;
+namespace WebApi.Tests.Integration.BudgetEntries.Command.UpdateBudgetEntry;
 
 [Collection(nameof(SharedTestCollection))]
 public class UpdateBudgetEntryTests : IAsyncLifetime
@@ -26,12 +26,11 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     private readonly HttpClient _client;
     private readonly ICurrentUserService _currentUserService;
     private readonly ITestDatabase _testDatabase;
-
     
-    private List<User> _initialUsers;
-    private List<Budget> _initialBudgets;
-    private List<Category> _existingCategories;
-    private List<BudgetEntry> _existingBudgetEntries;
+    private List<User> _initialUsers = new();
+    private List<Budget> _initialBudgets = new();
+    private List<Category> _existingCategories = new();
+    private List<BudgetEntry> _existingBudgetEntries = new();
 
     public UpdateBudgetEntryTests(CustomWebApplicationFactory apiFactory)
     {
@@ -131,7 +130,7 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
         //Act
         var response = await _client.PutAsJsonAsync(EndpointPath(OwnedBudgetId, OwnedBudgetEntryId), command);
         var result = await response.Content.ReadFromJsonAsync<UpdateBudgetEntryResponse>();
-        var entity = await _testDatabase.FindAsync<BudgetEntry, int>(result?.BudgetEntry?.Id ?? default);
+        var entity = await _testDatabase.FindAsync<BudgetEntry, int>(result?.BudgetEntry.Id ?? default);
         
         //Assert
         entity.Should().BeEquivalentTo(expected, x => x
