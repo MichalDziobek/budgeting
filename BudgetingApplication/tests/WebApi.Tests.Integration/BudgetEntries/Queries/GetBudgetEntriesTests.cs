@@ -95,10 +95,6 @@ public class GetBudgetEntriesTests : IAsyncLifetime
             { nameof(GetBudgetEntriesQuery.CategoryFilter), null },
             { nameof(GetBudgetEntriesQuery.BudgetEntryTypeFilter), null },
         };
-        var expectedResult = new GetBudgetEntriesResponse()
-        {
-            BudgetEntries = PaginatedResponse<BudgetEntryDto>.AdaptFrom(_budgetEntries.Where(x => x.BudgetId == _ownedBudgetId)) 
-        };
         var url = QueryHelpers.AddQueryString(EndpointPath(), queryParams);
         
         //Act
