@@ -1,13 +1,11 @@
 using Application.BudgetEntries.Queries.GetBudgetEntries;
-using Application.Categories.Queries.GetCategories;
-using AutoFixture;
 using FluentValidation.TestHelper;
 
 namespace Application.Tests.Unit.BudgetEntries.Queries.GetBudgetEntries;
 
 public class GetBudgetEntriesQueryValidatorTests
 {
-    private readonly GetBudgetEntriesQueryValidator _sut = new GetBudgetEntriesQueryValidator();
+    private readonly GetBudgetEntriesQueryValidator _sut = new();
 
     [Fact]
     public void ShouldPass_OnMinimalData()

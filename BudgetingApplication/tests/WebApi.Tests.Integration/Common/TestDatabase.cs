@@ -21,8 +21,9 @@ public class TestDatabase : ITestDatabase
         where TId : notnull
         where TEntity : BaseEntity<TId>
     {
-        //FirstOrDefaultAsync instead of FindAsync is used to rerun AutoIncludes
-        return await _dbContext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(id));
+        //Clear is sometimes required when we create and retrieve data in test, while modifying it in application
+        _dbContext.ChangeTracker.Clear(); 
+        return await _dbContext.FindAsync<TEntity>(id);
     }
 
     public async Task<TEntity> AddAsync<TEntity, TId>(TEntity entity)

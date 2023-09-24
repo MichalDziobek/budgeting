@@ -9,13 +9,13 @@ public class UserTestsData
     public const string CorrectName = "Jane Doe";
     public const string DefaultUserId = "auth0|12345";
 
-    public static CreateUserCommand CorrectCreateUserCommand => new CreateUserCommand
+    public static CreateUserCommand CorrectCreateUserCommand => new()
     {
         Email = CorrectEmail,
         FullName = CorrectName
     };
 
-    public static User DefaultUser => new User
+    public static User DefaultUser => new()
     {
         Id = DefaultUserId,
         FullName = CorrectName,

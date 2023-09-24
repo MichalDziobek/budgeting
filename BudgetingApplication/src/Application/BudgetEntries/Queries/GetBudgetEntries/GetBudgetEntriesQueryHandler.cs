@@ -6,7 +6,6 @@ using Application.DataModels.Common;
 using Application.Exceptions;
 using Domain.Entities;
 using Domain.Enums;
-using Mapster;
 using MediatR;
 
 namespace Application.BudgetEntries.Queries.GetBudgetEntries;

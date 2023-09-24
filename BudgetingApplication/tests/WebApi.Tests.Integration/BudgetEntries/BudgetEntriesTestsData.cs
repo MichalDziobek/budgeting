@@ -1,4 +1,5 @@
 using Application.BudgetEntries.Commands.CreateBudgetEntry;
+using Application.BudgetEntries.Commands.UpdateBudgetEntry;
 using Domain.Entities;
 
 namespace WebApi.Tests.Integration.BudgetEntries;
@@ -16,11 +17,14 @@ public class BudgetEntriesTestsData
         Value = DefaultValue,
     };
 
-    // public static UpdateBudgetNameCommand CorrectUpdateNameCommand =>
-    //     new UpdateBudgetNameCommand()
-    //     {
-    //         Name = DefaultName + "2",
-    //     };
+    public static UpdateBudgetEntryCommand CorrectUpdateCommand(int budgetEntryId, int categoryId) =>
+        new ()
+        {
+            BudgetEntryId = budgetEntryId,
+            Name = DefaultName + "2",
+            CategoryId = categoryId,
+            Value = 100,
+        };
 
     public static BudgetEntry DefaultEntity(int budgetId, int categoryId) => new ()
     {

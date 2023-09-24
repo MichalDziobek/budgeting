@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using Application.Abstractions.Persistence;
 using Application.Users.DataModels;
 using Domain.Entities;

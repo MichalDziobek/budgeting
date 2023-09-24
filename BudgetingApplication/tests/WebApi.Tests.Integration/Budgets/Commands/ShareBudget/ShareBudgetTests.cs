@@ -151,7 +151,7 @@ public class ShareBudgetTests : IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
-    private ShareBudgetCommand CorrectShareBudgetCommand => new ShareBudgetCommand
+    private ShareBudgetCommand CorrectShareBudgetCommand => new()
     {
         BudgetId = _existingBudgetId,
         SharedUserId = _initialUsers[1].Id

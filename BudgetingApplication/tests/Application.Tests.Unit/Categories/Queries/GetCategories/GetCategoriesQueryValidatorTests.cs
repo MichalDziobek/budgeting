@@ -6,7 +6,7 @@ namespace Application.Tests.Unit.Categories.Queries.GetCategories;
 
 public class GetCategoriesQueryValidatorTests
 {
-    private readonly GetCategoriesQueryValidator _sut = new GetCategoriesQueryValidator();
+    private readonly GetCategoriesQueryValidator _sut = new();
 
     [Fact]
     public void ShouldPass_OnEmptyData()

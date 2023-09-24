@@ -1,11 +1,9 @@
 using Application.Abstractions.Persistence;
-using Application.Categories.Commands.CreateCategoryCommand;
 using Application.Categories.Commands.DeleteCategory;
 using Application.Exceptions;
 using Application.Tests.Unit.Extensions;
 using AutoFixture;
 using Domain.Entities;
-using Mapster;
 using NSubstitute.ReturnsExtensions;
 
 namespace Application.Tests.Unit.Categories.Commands.DeleteCategory;

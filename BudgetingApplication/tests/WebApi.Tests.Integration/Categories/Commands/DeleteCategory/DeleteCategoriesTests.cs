@@ -1,13 +1,7 @@
 using System.Net;
-using System.Net.Http.Json;
-using Application.Abstractions;
-using Application.Categories.Commands.CreateCategoryCommand;
-using Application.Categories.Commands.DeleteCategory;
-using Application.Categories.DataModel;
 using AutoFixture;
 using Domain.Entities;
 using FluentAssertions;
-using Mapster;
 using NSubstitute;
 using WebApi.Authorization;
 using WebApi.Tests.Integration.Common;

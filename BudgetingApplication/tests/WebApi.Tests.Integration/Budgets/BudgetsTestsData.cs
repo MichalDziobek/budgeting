@@ -9,18 +9,18 @@ public class BudgetsTestsData
 {
     public const string DefaultName = "Budget Name";
 
-    public static CreateBudgetCommand CorrectCreateCommand => new CreateBudgetCommand()
+    public static CreateBudgetCommand CorrectCreateCommand => new()
     {
         Name = DefaultName,
     };
 
     public static UpdateBudgetNameCommand CorrectUpdateNameCommand =>
-        new UpdateBudgetNameCommand()
+        new()
         {
             Name = DefaultName + "2",
         };
 
-    public static Budget DefaultEntity => new Budget()
+    public static Budget DefaultEntity => new()
     {
         OwnerId = UserTestsData.DefaultUserId,
         Name = DefaultName,

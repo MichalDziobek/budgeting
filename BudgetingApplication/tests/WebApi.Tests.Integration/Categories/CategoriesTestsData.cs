@@ -7,18 +7,18 @@ public class CategoriesTestsData
 {
     public const string DefaultName = "Category Name";
 
-    public static CreateCategoryCommand CorrectCreateCommand => new CreateCategoryCommand()
+    public static CreateCategoryCommand CorrectCreateCommand => new()
     {
         Name = DefaultName,
     };
 
-    // public static UpdateBudgetNameCommand CorrectUpdateNameCommand =>
+    // public static UpdateBudgetNameCommand CorrectUpdateCommand =>
     //     new UpdateBudgetNameCommand()
     //     {
     //         Name = DefaultName + "2",
     //     };
 
-    public static Category DefaultEntity => new Category()
+    public static Category DefaultEntity => new()
     {
         Name = DefaultName,
     };
