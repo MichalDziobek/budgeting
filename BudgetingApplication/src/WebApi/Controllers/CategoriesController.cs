@@ -3,6 +3,7 @@ using Application.Categories.Queries.GetCategories;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Authorization;
 
 namespace WebApi.Controllers;
 
@@ -19,6 +20,7 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpPost]
+    [Authorize(Policy = AuthorizationPolicies.CreateCategory)]
     public async Task<ActionResult<CreateCategoryResponse>> Create(CreateCategoryCommand createCategoryCommand, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(createCategoryCommand, cancellationToken);
@@ -26,7 +28,7 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<CreateCategoryResponse>> Create([FromQuery]GetCategoriesQuery createCategoryCommand, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<GetCategoriesResponse>> Get([FromQuery]GetCategoriesQuery createCategoryCommand, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(createCategoryCommand, cancellationToken);
         return Ok(result);

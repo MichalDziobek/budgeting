@@ -2,7 +2,6 @@ using Application.Abstractions;
 using Application.Abstractions.Persistence;
 using Application.BudgetEntries.Queries.GetBudgetEntries;
 using Application.BudgetEntries.DataModel;
-using Application.BudgetEntries.Queries.GetBudgetEntries;
 using Application.DataModels.Common;
 using Application.Exceptions;
 using Application.Tests.Unit.Extensions;

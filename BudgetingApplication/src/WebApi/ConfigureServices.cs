@@ -1,11 +1,14 @@
 ﻿using Application.Abstractions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using WebApi.Authorization;
 using WebApi.Services;
 
 namespace WebApi;
 
 public static class ConfigureServices
 {
+
+    
     public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllers();
@@ -24,6 +27,7 @@ public static class ConfigureServices
                 options.Audience = audience;
 
             });
+        services.AddAuthorization(options => options.AddPermissionPolicies());
 
         services.AddSwaggerService(authority, audience);
 
