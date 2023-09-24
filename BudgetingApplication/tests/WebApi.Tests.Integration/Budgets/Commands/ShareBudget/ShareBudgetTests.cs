@@ -50,7 +50,7 @@ public class ShareBudgetTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
     [Fact]
-    public async Task UpdateName_ShouldReturnOk_OnCorrectRequest()
+    public async Task Share_ShouldReturnOk_OnCorrectRequest()
     {
         //Arrange
         var command = CorrectShareBudgetCommand;
@@ -63,11 +63,14 @@ public class ShareBudgetTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task UpdateName_ShouldUpdateDb_OnCorrectRequest()
+    public async Task Share_ShouldUpdateDb_OnCorrectRequest()
     {
         //Arrange
-        
+        var command = CorrectShareBudgetCommand;
+
         //Act
+        await _client.PutAsJsonAsync(EndpointPath(), command);
+
         var entity = await _testDatabase.FindAsync<Budget, int>(_existingBudgetId);
 
         //Assert
@@ -77,7 +80,7 @@ public class ShareBudgetTests : IAsyncLifetime
     
     [Theory]
     [InlineData("")]
-    public async Task UpdateName_ShouldReturnBadRequest_OnIncorrectRequestData(string userId)
+    public async Task Share_ShouldReturnBadRequest_OnIncorrectRequestData(string userId)
     {
         //Arrange
         var command = CorrectShareBudgetCommand;
@@ -91,7 +94,7 @@ public class ShareBudgetTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task UpdateName_ShouldReturnUnauthorized_WhenUserIdIsEmpty()
+    public async Task Share_ShouldReturnUnauthorized_WhenUserIdIsEmpty()
     {
         //Arrange
         var command = CorrectShareBudgetCommand;
@@ -105,7 +108,7 @@ public class ShareBudgetTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task UpdateName_ShouldReturnNotFound_WhenBudgetDoesNotExist()
+    public async Task Share_ShouldReturnNotFound_WhenBudgetDoesNotExist()
     {
         //Arrange
         var command = CorrectShareBudgetCommand;
@@ -118,7 +121,7 @@ public class ShareBudgetTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task UpdateName_ShouldReturnBadRequest_WhenUserDoesNotExist()
+    public async Task Share_ShouldReturnBadRequest_WhenUserDoesNotExist()
     {
         //Arrange
         var command = CorrectShareBudgetCommand;
@@ -132,7 +135,7 @@ public class ShareBudgetTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task UpdateName_ShouldReturnForbidden_OnOwnerIdNotMatchingCurrentUserId()
+    public async Task Share_ShouldReturnForbidden_OnOwnerIdNotMatchingCurrentUserId()
     {
         //Arrange
         var command = CorrectShareBudgetCommand;
