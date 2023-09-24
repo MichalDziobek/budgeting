@@ -45,6 +45,8 @@ public static class SwaggerExtensions
                     new[] { "openid" }
                 }
             });
+            
+            options.EnableAnnotations();
         });
 
         return services;

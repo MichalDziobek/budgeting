@@ -3,6 +3,7 @@ using Application.Users.Queries.GetUsers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace WebApi.Controllers;
 
@@ -19,6 +20,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
+    [SwaggerOperation("Create new user")]
     public async Task<ActionResult> Create(CreateUserCommand createUserCommand, CancellationToken cancellationToken = default)
     {
         await _sender.Send(createUserCommand, cancellationToken);
@@ -26,6 +28,7 @@ public class UsersController : ControllerBase
     }
     
     [HttpGet]
+    [SwaggerOperation("Get filtered users")]
     public async Task<ActionResult<GetUsersResponse>> Get([FromQuery] GetUsersQuery getUsersQuery, CancellationToken cancellationToken = default)
     {
         var response = await _sender.Send(getUsersQuery, cancellationToken);

@@ -4,6 +4,7 @@ using Application.BudgetEntries.Queries.GetBudgetEntries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace WebApi.Controllers;
 
@@ -20,6 +21,7 @@ public class BudgetEntriesController : ControllerBase
     }
     
     [HttpPost]
+    [SwaggerOperation("Create new budget entry")]
     public async Task<ActionResult<CreateBudgetEntryResponse>> Create(int budgetId, CreateBudgetEntryCommand createBudgetEntryCommand,
         CancellationToken cancellationToken = default)
     {
@@ -29,6 +31,7 @@ public class BudgetEntriesController : ControllerBase
     }
     
     [HttpPut("{budgetEntryId:int}")]
+    [SwaggerOperation("Update budget entry")]
     public async Task<ActionResult<UpdateBudgetEntryResponse>> Update(int budgetEntryId, UpdateBudgetEntryCommand createBudgetEntryCommand,
         CancellationToken cancellationToken = default)
     {
@@ -38,6 +41,7 @@ public class BudgetEntriesController : ControllerBase
     }
     
     [HttpGet]
+    [SwaggerOperation("Get filtered and paginated budget entries")]
     public async Task<ActionResult<GetBudgetEntriesResponse>> Get(int budgetId, [FromQuery]GetBudgetEntriesQuery createBudgetEntryCommand,
         CancellationToken cancellationToken = default)
     {

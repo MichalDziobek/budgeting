@@ -4,6 +4,7 @@ using Application.Categories.Queries.GetCategories;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.Authorization;
 
 namespace WebApi.Controllers;
@@ -22,6 +23,7 @@ public class CategoriesController : ControllerBase
     
     [HttpPost]
     [Authorize(Policy = AuthorizationPolicies.CreateCategory)]
+    [SwaggerOperation("Create new category", "Admin only")]
     public async Task<ActionResult<CreateCategoryResponse>> Create(CreateCategoryCommand createCategoryCommand, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(createCategoryCommand, cancellationToken);
@@ -30,6 +32,7 @@ public class CategoriesController : ControllerBase
     
     [HttpDelete("{categoryId:int}")]
     [Authorize(Policy = AuthorizationPolicies.DeleteCategory)]
+    [SwaggerOperation("Delete existing category", "Admin only, deletes all budget entries from this category")]
     public async Task<ActionResult> Delete(int categoryId, CancellationToken cancellationToken = default)
     {
         var command = new DeleteCategoryCommand() { CategoryId = categoryId };
@@ -38,6 +41,7 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpGet]
+    [SwaggerOperation("Get categories filtered by name")]
     public async Task<ActionResult<GetCategoriesResponse>> Get([FromQuery]GetCategoriesQuery createCategoryCommand, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(createCategoryCommand, cancellationToken);
