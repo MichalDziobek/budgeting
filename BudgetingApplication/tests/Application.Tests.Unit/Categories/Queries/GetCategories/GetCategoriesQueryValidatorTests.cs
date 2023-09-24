@@ -9,7 +9,7 @@ public class GetCategoriesQueryValidatorTests
     private readonly GetCategoriesQueryValidator _sut = new();
 
     [Fact]
-    public void ShouldPass_OnEmptyData()
+    public void ShouldPass_WhenEmptyData()
     {
         //Arrange
         var query = new GetCategoriesQuery();
@@ -23,7 +23,7 @@ public class GetCategoriesQueryValidatorTests
 
     
     [Fact]
-    public void ShouldFail_OnTooLongName()
+    public void ShouldFail_WhenTooLongName()
     {
         //Arrange
         var fixture = new Fixture();

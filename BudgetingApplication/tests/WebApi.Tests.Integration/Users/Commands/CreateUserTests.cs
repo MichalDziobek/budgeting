@@ -33,7 +33,7 @@ public class CreateUserTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
     [Fact]
-    public async Task Create_ShouldReturnOk_OnCorrectRequest()
+    public async Task Create_ShouldReturnOk_WhenCorrectRequest()
     {
         //Arrange
         var command = UserTestsData.CorrectCreateUserCommand;
@@ -47,7 +47,7 @@ public class CreateUserTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldAddToDb_OnCorrectRequest()
+    public async Task Create_ShouldAddToDb_WhenCorrectRequest()
     {
         //Arrange
         var command = UserTestsData.CorrectCreateUserCommand;

@@ -15,6 +15,7 @@ public class ShareBudgetCommandHandlerTests
     private readonly ICurrentUserService _currentUserService;
     private readonly IBudgetsRepository _budgetsRepository;
     private readonly IUsersRepository _usersRepository;
+    private readonly Fixture _fixture;
 
     public ShareBudgetCommandHandlerTests()
     {
@@ -22,6 +23,7 @@ public class ShareBudgetCommandHandlerTests
         _budgetsRepository = Substitute.For<IBudgetsRepository>();
         _usersRepository = Substitute.For<IUsersRepository>();
         _sut = new ShareBudgetCommandHandler(_currentUserService, _budgetsRepository, _usersRepository);
+        _fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
     }
 
     [Fact]
@@ -41,10 +43,9 @@ public class ShareBudgetCommandHandlerTests
 
     private User GetCommand(out ShareBudgetCommand command)
     {
-        var fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
-        var sharedToUser = fixture.Create<User>();
-        var currentUserId = fixture.Create<string>();
-        var budget = fixture.Create<Budget>();
+        var sharedToUser = _fixture.Create<User>();
+        var currentUserId = _fixture.Create<string>();
+        var budget = _fixture.Create<Budget>();
         budget.OwnerId = currentUserId;
 
         command = new ShareBudgetCommand
@@ -63,8 +64,7 @@ public class ShareBudgetCommandHandlerTests
     public async Task ShouldThrowUnauthorizedException_WhenUserIdIsNull()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<ShareBudgetCommand>();
+        var command = _fixture.Create<ShareBudgetCommand>();
         _currentUserService.UserId.ReturnsNull();
         
         //Act
@@ -79,9 +79,8 @@ public class ShareBudgetCommandHandlerTests
     public async Task ShouldThrowNotFoundException_WhenBudgetDoesNotExist()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<ShareBudgetCommand>();
-        var currentUserId = fixture.Create<string>();
+        var command = _fixture.Create<ShareBudgetCommand>();
+        var currentUserId = _fixture.Create<string>();
         
         _currentUserService.UserId.Returns(currentUserId);
         
@@ -96,10 +95,9 @@ public class ShareBudgetCommandHandlerTests
     public async Task ShouldThrowBadRequestException_WhenSharedToUserDoesNotExist()
     {
         //Arrange
-        var fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
-        var command = fixture.Create<ShareBudgetCommand>();
-        var currentUserId = fixture.Create<string>();
-        var budget = fixture.Create<Budget>();
+        var command = _fixture.Create<ShareBudgetCommand>();
+        var currentUserId = _fixture.Create<string>();
+        var budget = _fixture.Create<Budget>();
 
         _budgetsRepository.GetById(command.BudgetId, Arg.Any<CancellationToken>()).Returns(budget);
         _usersRepository.GetById(command.SharedUserId, Arg.Any<CancellationToken>()).ReturnsNull();
@@ -116,11 +114,10 @@ public class ShareBudgetCommandHandlerTests
     public async Task ShouldThrowForbiddenException_WhenBudgetOwnerIdDoesNotMatchUserId()
     {
         //Arrange
-        var fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
-        var command = fixture.Create<ShareBudgetCommand>();
-        var currentUserId = fixture.Create<string>();
-        var budget = fixture.Create<Budget>();
-        var sharedToUser = fixture.Create<User>();
+        var command = _fixture.Create<ShareBudgetCommand>();
+        var currentUserId = _fixture.Create<string>();
+        var budget = _fixture.Create<Budget>();
+        var sharedToUser = _fixture.Create<User>();
 
         _budgetsRepository.GetById(command.BudgetId, Arg.Any<CancellationToken>()).Returns(budget);
         _usersRepository.GetById(command.SharedUserId, Arg.Any<CancellationToken>()).Returns(sharedToUser);

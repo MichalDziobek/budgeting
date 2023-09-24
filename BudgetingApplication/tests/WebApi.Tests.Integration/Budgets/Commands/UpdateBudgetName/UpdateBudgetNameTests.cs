@@ -43,7 +43,7 @@ public class UpdateBudgetNameTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
     [Fact]
-    public async Task UpdateName_ShouldReturnOk_OnCorrectRequest()
+    public async Task UpdateName_ShouldReturnOk_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetsTestsData.CorrectUpdateNameCommand;
@@ -56,7 +56,7 @@ public class UpdateBudgetNameTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task UpdateName_ShouldUpdateDb_OnCorrectRequest()
+    public async Task UpdateName_ShouldUpdateDb_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetsTestsData.CorrectUpdateNameCommand;
@@ -115,7 +115,7 @@ public class UpdateBudgetNameTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task UpdateName_ShouldReturnForbidden_OnOwnerIdNotMatchingCurrentUserId()
+    public async Task UpdateName_ShouldReturnForbidden_WhenOwnerIdNotMatchingCurrentUserId()
     {
         //Arrange
         var command = BudgetsTestsData.CorrectUpdateNameCommand;

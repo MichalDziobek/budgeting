@@ -50,7 +50,7 @@ public class ShareBudgetTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
     [Fact]
-    public async Task Share_ShouldReturnOk_OnCorrectRequest()
+    public async Task Share_ShouldReturnOk_WhenCorrectRequest()
     {
         //Arrange
         var command = CorrectShareBudgetCommand;
@@ -63,7 +63,7 @@ public class ShareBudgetTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Share_ShouldUpdateDb_OnCorrectRequest()
+    public async Task Share_ShouldUpdateDb_WhenCorrectRequest()
     {
         //Arrange
         var command = CorrectShareBudgetCommand;
@@ -80,7 +80,7 @@ public class ShareBudgetTests : IAsyncLifetime
     
     [Theory]
     [InlineData("")]
-    public async Task Share_ShouldReturnBadRequest_OnIncorrectRequestData(string userId)
+    public async Task Share_ShouldReturnBadRequest_WhenIncorrectRequestData(string userId)
     {
         //Arrange
         var command = CorrectShareBudgetCommand;
@@ -135,7 +135,7 @@ public class ShareBudgetTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Share_ShouldReturnForbidden_OnOwnerIdNotMatchingCurrentUserId()
+    public async Task Share_ShouldReturnForbidden_WhenOwnerIdNotMatchingCurrentUserId()
     {
         //Arrange
         var command = CorrectShareBudgetCommand;

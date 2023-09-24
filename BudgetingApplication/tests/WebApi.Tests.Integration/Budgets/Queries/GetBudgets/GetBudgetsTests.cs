@@ -44,7 +44,7 @@ public class GetBudgetsTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
     
     [Fact]
-    public async Task Get_ShouldReturnOk_OnEmptyQuery()
+    public async Task Get_ShouldReturnOk_WhenEmptyQuery()
     {
         //Arrange
         
@@ -58,7 +58,7 @@ public class GetBudgetsTests : IAsyncLifetime
     [Theory]
     [InlineData(0)]
     [InlineData(1)]
-    public async Task Get_ShouldReturnBudgetsForCorrectUser_OnEmptyQuery(int userIndex)
+    public async Task Get_ShouldReturnBudgetsForCorrectUser_WhenEmptyQuery(int userIndex)
     {
         //Arrange
         _currentUserService.UserId.Returns(_initialUsers[userIndex].Id);

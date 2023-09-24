@@ -9,7 +9,7 @@ public class CreateCategoryCommandValidatorTests
     private readonly CreateCategoryCommandValidator _sut = new();
 
     [Fact]
-    public void ShouldPass_OnCorrectData()
+    public void ShouldPass_WhenCorrectData()
     {
         //Arrange
         var command = new CreateCategoryCommand()
@@ -25,7 +25,7 @@ public class CreateCategoryCommandValidatorTests
     }
     
     [Fact]
-    public void ShouldFail_OnEmptyName()
+    public void ShouldFail_WhenEmptyName()
     {
         //Arrange
         var command = new CreateCategoryCommand()
@@ -42,7 +42,7 @@ public class CreateCategoryCommandValidatorTests
     
 
     [Fact]
-    public void ShouldFail_OnTooLongName()
+    public void ShouldFail_WhenTooLongName()
     {
         //Arrange
         var fixture = new Fixture();

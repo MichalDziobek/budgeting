@@ -51,7 +51,7 @@ public class GetBudgetEntriesQueryHandlerTests
     }
 
     [Fact]
-    public async Task ShouldReturnAllResults_OnEmptyFiltersAndLimitExceedingMax_ForBudgetOwner()
+    public async Task ShouldReturnAllResults_WhenEmptyFiltersAndLimitExceedingMax_ForBudgetOwner()
     {
         //Arrange
         var expectedBudgetEntries = _budgetEntries.Adapt<IEnumerable<BudgetEntryDto>>();
@@ -79,7 +79,7 @@ public class GetBudgetEntriesQueryHandlerTests
     }
     
     [Fact]
-    public async Task ShouldReturnAllResults_OnEmptyFiltersAndLimitExceedingMax_ForSharedBudget()
+    public async Task ShouldReturnAllResults_WhenEmptyFiltersAndLimitExceedingMax_ForSharedBudget()
     {
         //Arrange
         var expectedBudgetEntries = _budgetEntries.Adapt<IEnumerable<BudgetEntryDto>>();
@@ -115,7 +115,7 @@ public class GetBudgetEntriesQueryHandlerTests
     [InlineData(0,1)]
     [InlineData(2,2)]
     [InlineData(1,5)]
-    public async Task ShouldReturnPaginatedResults_OnEmptyFilters(int offset, int limit)
+    public async Task ShouldReturnPaginatedResults_WhenEmptyFilters(int offset, int limit)
     {
         //Arrange
         var expectedBudgetEntries = _budgetEntries.Skip(offset).Take(limit).Adapt<IEnumerable<BudgetEntryDto>>();
@@ -149,7 +149,7 @@ public class GetBudgetEntriesQueryHandlerTests
     [InlineData(0,1, 1)]
     [InlineData(2,2, 1)]
     [InlineData(1,5, 1)]
-    public async Task ShouldReturnPaginatedResults_OnCategoryFilters(int offset, int limit, int categoryIdIndex)
+    public async Task ShouldReturnPaginatedResults_WhenCategoryFilters(int offset, int limit, int categoryIdIndex)
     {
         //Arrange
         var expectedBudgetEntries = _budgetEntries.Where(x => x.CategoryId == _categoryIds[categoryIdIndex])
@@ -184,7 +184,7 @@ public class GetBudgetEntriesQueryHandlerTests
     [InlineData(0,1, 1)]
     [InlineData(2,2, 1)]
     [InlineData(1,5, 1)]
-    public async Task ShouldReturnPaginatedResults_OnBudgetEntryTypeFilters(int offset, int limit, int entryType)
+    public async Task ShouldReturnPaginatedResults_WhenBudgetEntryTypeFilters(int offset, int limit, int entryType)
     {
         //Arrange
         var budgetEntryType = (BudgetEntryType)entryType;
@@ -219,7 +219,7 @@ public class GetBudgetEntriesQueryHandlerTests
     }
     
     [Fact]
-    public async Task ShouldThrowNotFoundException_OnNonExistingBudgetId()
+    public async Task ShouldThrowNotFoundException_WhenNonExistingBudgetId()
     {
         //Arrange
         _ = GetOwnedBudget();
@@ -241,7 +241,7 @@ public class GetBudgetEntriesQueryHandlerTests
     }
     
     [Fact]
-    public async Task ShouldThrowUnauthorizedException_OnNullUserId()
+    public async Task ShouldThrowUnauthorizedException_WhenNullUserId()
     {
         //Arrange
         _ = GetOwnedBudget();
@@ -264,7 +264,7 @@ public class GetBudgetEntriesQueryHandlerTests
     }
     
     [Fact]
-    public async Task ShouldThrowForbiddenException_OnNullUserId()
+    public async Task ShouldThrowForbiddenException_WhenNullUserId()
     {
         //Arrange
         var budget = GetOwnedBudget();

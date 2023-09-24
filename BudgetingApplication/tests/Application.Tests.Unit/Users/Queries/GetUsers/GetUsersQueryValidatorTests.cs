@@ -14,7 +14,7 @@ public class GetUsersQueryValidatorTests
     }
 
     [Fact]
-    public void ShouldPass_OnEmptyData()
+    public void ShouldPass_WhenEmptyData()
     {
         //Arrange
         var query = new GetUsersQuery();
@@ -30,7 +30,7 @@ public class GetUsersQueryValidatorTests
     [InlineData("foo")]
     [InlineData("")]
     [InlineData("incorrect@@@email.com")]
-    public void ShouldPass_OnEmail(string email)
+    public void ShouldPass_WhenEmail(string email)
     {
         //Arrange
         var query = new GetUsersQuery()
@@ -49,7 +49,7 @@ public class GetUsersQueryValidatorTests
     [InlineData("foo")]
     [InlineData("")]
     [InlineData("John Doe")]
-    public void ShouldPass_OnName(string name)
+    public void ShouldPass_WhenName(string name)
     {
         //Arrange
         var query = new GetUsersQuery()
@@ -65,7 +65,7 @@ public class GetUsersQueryValidatorTests
     }
     
     [Fact]
-    public void ShouldFail_OnTooLongEmail()
+    public void ShouldFail_WhenTooLongEmail()
     {
         //Arrange
         var fixture = new Fixture();
@@ -83,7 +83,7 @@ public class GetUsersQueryValidatorTests
     }
     
     [Fact]
-    public void ShouldFail_OnTooLongName()
+    public void ShouldFail_WhenTooLongName()
     {
         //Arrange
         var fixture = new Fixture();

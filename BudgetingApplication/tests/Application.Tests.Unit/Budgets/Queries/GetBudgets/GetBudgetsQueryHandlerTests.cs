@@ -34,7 +34,7 @@ public class GetBudgetsQueryHandlerTests
     }
 
     [Fact]
-    public async Task ShouldReturnAllResults_OnEmptyQuery()
+    public async Task ShouldReturnAllResults_WhenEmptyQuery()
     {
         //Arrange
         var expectedResponse = new GetBudgetsResponse

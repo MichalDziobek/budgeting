@@ -8,7 +8,7 @@ public class ShareBudgetCommandValidatorTests
     private readonly ShareBudgetCommandValidator _sut = new();
 
     [Fact]
-    public void ShouldPass_OnCorrectData()
+    public void ShouldPass_WhenCorrectData()
     {
         //Arrange
         var command = new ShareBudgetCommand()
@@ -25,7 +25,7 @@ public class ShareBudgetCommandValidatorTests
     }
     
     [Fact]
-    public void ShouldFail_OnEmptyBudgetId()
+    public void ShouldFail_WhenEmptyBudgetId()
     {
         //Arrange
         var command = new ShareBudgetCommand()
@@ -42,7 +42,7 @@ public class ShareBudgetCommandValidatorTests
     }
     
     [Fact]
-    public void ShouldFail_OnEmptyUserId()
+    public void ShouldFail_WhenEmptyUserId()
     {
         //Arrange
         var command = new ShareBudgetCommand()

@@ -46,7 +46,7 @@ public class DeleteCategoriesTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
     [Fact]
-    public async Task Create_ShouldReturnOk_OnCorrectRequest()
+    public async Task Create_ShouldReturnOk_WhenCorrectRequest()
     {
         //Arrange
         
@@ -71,7 +71,7 @@ public class DeleteCategoriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldDeleteFromDb_OnCorrectRequest()
+    public async Task Create_ShouldDeleteFromDb_WhenCorrectRequest()
     {
         //Arrange
         

@@ -35,7 +35,7 @@ public class GetUsersTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
     
     [Fact]
-    public async Task Get_ShouldReturnOk_OnEmptyQuery()
+    public async Task Get_ShouldReturnOk_WhenEmptyQuery()
     {
         //Arrange
         
@@ -47,7 +47,7 @@ public class GetUsersTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnAllUsers_OnEmptyQuery()
+    public async Task Get_ShouldReturnAllUsers_WhenEmptyQuery()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -73,7 +73,7 @@ public class GetUsersTests : IAsyncLifetime
     [InlineData("Jane")]
     [InlineData("Smith")]
     [InlineData("John Doe")]
-    public async Task Get_ShouldReturnFilteredUsers_OnNameQuery(string nameQuery)
+    public async Task Get_ShouldReturnFilteredUsers_WhenNameQuery(string nameQuery)
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -101,7 +101,7 @@ public class GetUsersTests : IAsyncLifetime
     [InlineData("jane")]
     [InlineData("smith")]
     [InlineData("john.doe@example.com")]
-    public async Task Get_ShouldReturnFilteredUsers_OnEmailQuery(string emailQuery)
+    public async Task Get_ShouldReturnFilteredUsers_WhenEmailQuery(string emailQuery)
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -129,7 +129,7 @@ public class GetUsersTests : IAsyncLifetime
     [InlineData("Jane", "jane")]
     [InlineData("Smith", "smith")]
     [InlineData("John Doe", "john.doe@example.com")]
-    public async Task Get_ShouldReturnFilteredUsers_OnEmailAndNameQuery(string nameQuery, string emailQuery)
+    public async Task Get_ShouldReturnFilteredUsers_WhenEmailAndNameQuery(string nameQuery, string emailQuery)
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()

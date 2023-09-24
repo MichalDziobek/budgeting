@@ -8,7 +8,7 @@ public class GetBudgetEntriesQueryValidatorTests
     private readonly GetBudgetEntriesQueryValidator _sut = new();
 
     [Fact]
-    public void ShouldPass_OnMinimalData()
+    public void ShouldPass_WhenMinimalData()
     {
         //Arrange
         var query = new GetBudgetEntriesQuery

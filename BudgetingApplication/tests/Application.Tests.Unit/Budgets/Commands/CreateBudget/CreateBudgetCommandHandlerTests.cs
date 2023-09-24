@@ -15,21 +15,22 @@ public class CreateBudgetCommandHandlerTests
     private readonly CreateBudgetCommandHandler _sut;
     private readonly ICurrentUserService _currentUserService;
     private readonly IBudgetsRepository _budgetsRepository;
+    private readonly Fixture _fixture;
 
     public CreateBudgetCommandHandlerTests()
     {
         _currentUserService = Substitute.For<ICurrentUserService>();
         _budgetsRepository = Substitute.For<IBudgetsRepository>();
         _sut = new CreateBudgetCommandHandler(_currentUserService, _budgetsRepository);
+        _fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
     }
 
     [Fact]
     public async Task ShouldCallCreateWithCorrectData()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<CreateBudgetCommand>();
-        var userId = fixture.Create<string>();
+        var command = _fixture.Create<CreateBudgetCommand>();
+        var userId = _fixture.Create<string>();
         _currentUserService.UserId.Returns(userId);
         
         //Act
@@ -45,11 +46,10 @@ public class CreateBudgetCommandHandlerTests
     public async Task ShouldReturnCorrectResult()
     {
         //Arrange
-        var fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
-        var command = fixture.Create<CreateBudgetCommand>();
-        var userId = fixture.Create<string>();
+        var command = _fixture.Create<CreateBudgetCommand>();
+        var userId = _fixture.Create<string>();
         _currentUserService.UserId.Returns(userId);
-        var budget = fixture.Create<Budget>();
+        var budget = _fixture.Create<Budget>();
 
         _budgetsRepository.Create(Arg.Is<Budget>(x => x.OwnerId == userId && x.Name == command.Name),
             Arg.Any<CancellationToken>()).Returns(budget);
@@ -66,8 +66,7 @@ public class CreateBudgetCommandHandlerTests
     public async Task ShouldThrowUnauthorizedException_WhenUserIdIsNull()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<CreateBudgetCommand>();
+        var command = _fixture.Create<CreateBudgetCommand>();
         _currentUserService.UserId.ReturnsNull();
         
         //Act
@@ -82,10 +81,9 @@ public class CreateBudgetCommandHandlerTests
     public async Task ShouldThrowBadRequestException_WhenBudgetExistsExists()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<CreateBudgetCommand>();
+        var command = _fixture.Create<CreateBudgetCommand>();
         var budget = command.Adapt<Budget>();
-        var userId = fixture.Create<string>();
+        var userId = _fixture.Create<string>();
         budget.OwnerId = userId;
         
         _currentUserService.UserId.Returns(userId);

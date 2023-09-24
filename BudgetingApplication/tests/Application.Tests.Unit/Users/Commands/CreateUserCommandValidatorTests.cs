@@ -9,7 +9,7 @@ public class CreateUserCommandValidatorTests
     private readonly CreateUserCommandValidator _sut = new();
 
     [Fact]
-    public void ShouldPass_OnCorrectData()
+    public void ShouldPass_WhenCorrectData()
     {
         //Arrange
         var command = new CreateUserCommand
@@ -29,7 +29,7 @@ public class CreateUserCommandValidatorTests
     [InlineData("foo")]
     [InlineData("")]
     [InlineData("incorrect@@@email.com")]
-    public void ShouldFail_OnIncorrectEmail(string email)
+    public void ShouldFail_WhenIncorrectEmail(string email)
     {
         //Arrange
         var command = new CreateUserCommand
@@ -46,7 +46,7 @@ public class CreateUserCommandValidatorTests
     }
     
     [Fact]
-    public void ShouldFail_OnTooLongEmail()
+    public void ShouldFail_WhenTooLongEmail()
     {
         //Arrange
         var fixture = new Fixture();
@@ -65,7 +65,7 @@ public class CreateUserCommandValidatorTests
     }
 
     [Fact]
-    public void ShouldFail_OnTooLongName()
+    public void ShouldFail_WhenTooLongName()
     {
         //Arrange
         var fixture = new Fixture();

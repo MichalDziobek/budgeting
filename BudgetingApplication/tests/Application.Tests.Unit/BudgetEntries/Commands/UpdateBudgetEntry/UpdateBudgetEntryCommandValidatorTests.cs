@@ -9,7 +9,7 @@ public class UpdateBudgetEntryCommandValidatorTests
     private readonly UpdateBudgetEntryCommandValidator _sut = new();
 
     [Fact]
-    public void ShouldPass_OnCorrectData()
+    public void ShouldPass_WhenCorrectData()
     {
         //Arrange
         var command = new UpdateBudgetEntryCommand
@@ -28,7 +28,7 @@ public class UpdateBudgetEntryCommandValidatorTests
     }
     
     [Fact]
-    public void ShouldFail_OnEmptyName()
+    public void ShouldFail_WhenEmptyName()
     {
         //Arrange
         var command = new UpdateBudgetEntryCommand()
@@ -44,7 +44,7 @@ public class UpdateBudgetEntryCommandValidatorTests
     }
     
     [Fact]
-    public void ShouldFail_OnEmptyBudgetId()
+    public void ShouldFail_WhenEmptyBudgetId()
     {
         //Arrange
         var command = new UpdateBudgetEntryCommand()
@@ -60,7 +60,7 @@ public class UpdateBudgetEntryCommandValidatorTests
     }
     
     [Fact]
-    public void ShouldFail_OnEmptyCategoryId()
+    public void ShouldFail_WhenEmptyCategoryId()
     {
         //Arrange
         var command = new UpdateBudgetEntryCommand()
@@ -76,7 +76,7 @@ public class UpdateBudgetEntryCommandValidatorTests
     }
 
     [Fact]
-    public void ShouldFail_OnTooLongName()
+    public void ShouldFail_WhenTooLongName()
     {
         //Arrange
         var fixture = new Fixture();

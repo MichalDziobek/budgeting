@@ -13,21 +13,22 @@ public class CreateUserCommandHandlerTests
     private readonly CreateUserCommandHandler _sut;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUsersRepository _usersRepository;
+    private readonly Fixture _fixture;
 
     public CreateUserCommandHandlerTests()
     {
         _currentUserService = Substitute.For<ICurrentUserService>();
         _usersRepository = Substitute.For<IUsersRepository>();
         _sut = new CreateUserCommandHandler(_currentUserService, _usersRepository);
+        _fixture = new Fixture();
     }
 
     [Fact]
     public async Task ShouldCallCreateWithCorrectData()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<CreateUserCommand>();
-        var userId = fixture.Create<string>();
+        var command = _fixture.Create<CreateUserCommand>();
+        var userId = _fixture.Create<string>();
         _currentUserService.UserId.Returns(userId);
         
         //Act
@@ -43,8 +44,7 @@ public class CreateUserCommandHandlerTests
     public async Task ShouldThrowUnauthorizedException_WhenUserIdIsNull()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<CreateUserCommand>();
+        var command = _fixture.Create<CreateUserCommand>();
         _currentUserService.UserId.ReturnsNull();
         
         //Act
@@ -59,11 +59,10 @@ public class CreateUserCommandHandlerTests
     public async Task ShouldThrowBadRequestException_WhenUserExists()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<CreateUserCommand>();
+        var command = _fixture.Create<CreateUserCommand>();
         var user = new User();
         
-        var userId = fixture.Create<string>();
+        var userId = _fixture.Create<string>();
         _currentUserService.UserId.Returns(userId);
         _usersRepository.GetById(userId, Arg.Any<CancellationToken>()).Returns(user);
         

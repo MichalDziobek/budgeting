@@ -26,7 +26,7 @@ public class GetUsersQueryHandlerTests
     }
 
     [Fact]
-    public async Task ShouldReturnAllResults_OnEmptyQuery()
+    public async Task ShouldReturnAllResults_WhenEmptyQuery()
     {
         //Arrange
         var expectedUsers = _users.Adapt<IEnumerable<UserDto>>();
@@ -46,7 +46,7 @@ public class GetUsersQueryHandlerTests
     [Theory]
     [InlineData(0)]
     [InlineData(2)]
-    public async Task ShouldReturnFilteredUsers_OnQueryWithNameFilter(int userIndex)
+    public async Task ShouldReturnFilteredUsers_WhenQueryWithNameFilter(int userIndex)
     {
         //Arrange
         var fullName = _users[userIndex].FullName;
@@ -71,7 +71,7 @@ public class GetUsersQueryHandlerTests
     [Theory]
     [InlineData(0)]
     [InlineData(2)]
-    public async Task ShouldReturnFilteredUsers_OnQueryWithEmailFilter(int userIndex)
+    public async Task ShouldReturnFilteredUsers_WhenQueryWithEmailFilter(int userIndex)
     {
         //Arrange
         var email = _users[userIndex].Email;
@@ -96,7 +96,7 @@ public class GetUsersQueryHandlerTests
     [Theory]
     [InlineData(0)]
     [InlineData(2)]
-    public async Task ShouldReturnFilteredUsers_OnQueryWithAllFilters(int userIndex)
+    public async Task ShouldReturnFilteredUsers_WhenQueryWithAllFilters(int userIndex)
     {
         //Arrange
         var email = _users[userIndex].Email;

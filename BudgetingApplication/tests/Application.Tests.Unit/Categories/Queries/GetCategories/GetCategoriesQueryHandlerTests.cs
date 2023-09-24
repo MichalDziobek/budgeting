@@ -26,7 +26,7 @@ public class GetCategoriesQueryHandlerTests
     }
 
     [Fact]
-    public async Task ShouldReturnAllResults_OnEmptyQuery()
+    public async Task ShouldReturnAllResults_WhenEmptyQuery()
     {
         //Arrange
         var expectedCategories = _users.Adapt<IEnumerable<CategoryDto>>();
@@ -46,7 +46,7 @@ public class GetCategoriesQueryHandlerTests
     [Theory]
     [InlineData(0)]
     [InlineData(2)]
-    public async Task ShouldReturnFilteredCategories_OnQueryWithNameFilter(int userIndex)
+    public async Task ShouldReturnFilteredCategories_WhenQueryWithNameFilter(int userIndex)
     {
         //Arrange
         var fullName = _users[userIndex].Name;

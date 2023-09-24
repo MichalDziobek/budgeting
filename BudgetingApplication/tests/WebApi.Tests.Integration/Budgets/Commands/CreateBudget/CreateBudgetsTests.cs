@@ -39,7 +39,7 @@ public class CreateBudgetsTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
     [Fact]
-    public async Task Create_ShouldReturnOk_OnCorrectRequest()
+    public async Task Create_ShouldReturnOk_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetsTestsData.CorrectCreateCommand;
@@ -52,7 +52,7 @@ public class CreateBudgetsTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldReturnId_OnCorrectRequest()
+    public async Task Create_ShouldReturnId_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetsTestsData.CorrectCreateCommand;
@@ -67,7 +67,7 @@ public class CreateBudgetsTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldReturnCorrectResponse_OnCorrectRequest()
+    public async Task Create_ShouldReturnCorrectResponse_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetsTestsData.CorrectCreateCommand;
@@ -86,7 +86,7 @@ public class CreateBudgetsTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldAddToDb_OnCorrectRequest()
+    public async Task Create_ShouldAddToDb_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetsTestsData.CorrectCreateCommand;

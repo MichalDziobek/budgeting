@@ -58,7 +58,7 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
     [Fact]
-    public async Task Update_ShouldReturnOk_OnCorrectRequestForOwner()
+    public async Task Update_ShouldReturnOk_WhenCorrectRequestForOwner()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectUpdateCommand(OwnedBudgetEntryId, OtherCategoryId);
@@ -71,7 +71,7 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Update_ShouldReturnOk_OnCorrectRequestForShared()
+    public async Task Update_ShouldReturnOk_WhenCorrectRequestForShared()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectUpdateCommand(SharedBudgetEntryId, OtherCategoryId);
@@ -84,7 +84,7 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Update_ShouldReturnId_OnCorrectRequest()
+    public async Task Update_ShouldReturnId_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectUpdateCommand(OwnedBudgetEntryId, OtherCategoryId);
@@ -99,7 +99,7 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Update_ShouldReturnCorrectResponse_OnCorrectRequest()
+    public async Task Update_ShouldReturnCorrectResponse_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectUpdateCommand(OwnedBudgetEntryId, OtherCategoryId);
@@ -119,7 +119,7 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Update_ShouldUpdateBudgetTotalValue_OnCorrectRequest()
+    public async Task Update_ShouldUpdateBudgetTotalValue_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectUpdateCommand(OwnedBudgetEntryId, SelectedCategoryId);
@@ -138,7 +138,7 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Update_ShouldUpdateDb_OnCorrectRequest()
+    public async Task Update_ShouldUpdateDb_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectUpdateCommand(OwnedBudgetEntryId, OtherCategoryId);

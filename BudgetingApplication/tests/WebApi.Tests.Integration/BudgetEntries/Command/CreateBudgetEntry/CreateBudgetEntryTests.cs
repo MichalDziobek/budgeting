@@ -50,7 +50,7 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
     [Fact]
-    public async Task Create_ShouldReturnOk_OnCorrectRequestForOwner()
+    public async Task Create_ShouldReturnOk_WhenCorrectRequestForOwner()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
@@ -63,7 +63,7 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldReturnOk_OnCorrectRequestForShared()
+    public async Task Create_ShouldReturnOk_WhenCorrectRequestForShared()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectCreateCommand(SharedBudgetId, _existingCategory.Id);
@@ -76,7 +76,7 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldReturnId_OnCorrectRequest()
+    public async Task Create_ShouldReturnId_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
@@ -91,7 +91,7 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldReturnCorrectResponse_OnCorrectRequest()
+    public async Task Create_ShouldReturnCorrectResponse_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
@@ -110,7 +110,7 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldAddToDb_OnCorrectRequest()
+    public async Task Create_ShouldAddToDb_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
@@ -129,7 +129,7 @@ public class CreateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_UpdateBudgetTotalValue_OnCorrectRequest()
+    public async Task Create_UpdateBudgetTotalValue_WhenCorrectRequest()
     {
         //Arrange
         var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);

@@ -34,7 +34,7 @@ public class GetCategoriesTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
     
     [Fact]
-    public async Task Get_ShouldReturnOk_OnEmptyQuery()
+    public async Task Get_ShouldReturnOk_WhenEmptyQuery()
     {
         //Arrange
         
@@ -46,7 +46,7 @@ public class GetCategoriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnAllCategories_OnEmptyQuery()
+    public async Task Get_ShouldReturnAllCategories_WhenEmptyQuery()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -71,7 +71,7 @@ public class GetCategoriesTests : IAsyncLifetime
     [InlineData("Category")]
     [InlineData("Cat")]
     [InlineData("Other")]
-    public async Task Get_ShouldReturnFilteredCategories_OnNameQuery(string nameQuery)
+    public async Task Get_ShouldReturnFilteredCategories_WhenNameQuery(string nameQuery)
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()

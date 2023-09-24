@@ -50,7 +50,7 @@ public class GetBudgetEntriesTests : IAsyncLifetime
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
     
     [Fact]
-    public async Task Get_ShouldReturnOk_OnCorrectQuery_ForOwnBudget()
+    public async Task Get_ShouldReturnOk_WhenCorrectQuery_ForOwnBudget()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -71,7 +71,7 @@ public class GetBudgetEntriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnOk_OnCorrectQuery_ForSharedBudget()
+    public async Task Get_ShouldReturnOk_WhenCorrectQuery_ForSharedBudget()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -93,7 +93,7 @@ public class GetBudgetEntriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnExpectedEntries_OnNonFilteredQuery_ForOwnBudget()
+    public async Task Get_ShouldReturnExpectedEntries_WhenNonFilteredQuery_ForOwnBudget()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -119,7 +119,7 @@ public class GetBudgetEntriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnExpectedEntries_OnQueryFilteredByCategory_ForOwnBudget()
+    public async Task Get_ShouldReturnExpectedEntries_WhenQueryFilteredByCategory_ForOwnBudget()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -146,7 +146,7 @@ public class GetBudgetEntriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnExpectedEntries_OnQueryFilteredByType_ForOwnBudget()
+    public async Task Get_ShouldReturnExpectedEntries_WhenQueryFilteredByType_ForOwnBudget()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -173,7 +173,7 @@ public class GetBudgetEntriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnExpectedEntries_OnQueryFilteredByTypeAndCategory_ForOwnBudget()
+    public async Task Get_ShouldReturnExpectedEntries_WhenQueryFilteredByTypeAndCategory_ForOwnBudget()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -200,7 +200,7 @@ public class GetBudgetEntriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnNotFound_OnNonExistingBudget()
+    public async Task Get_ShouldReturnNotFound_WhenNonExistingBudget()
     {
         //Arrange
         const int nonExistingBudgetId = -1;
@@ -223,7 +223,7 @@ public class GetBudgetEntriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnUnauthorized_OnNullUserId()
+    public async Task Get_ShouldReturnUnauthorized_WhenNullUserId()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()
@@ -246,7 +246,7 @@ public class GetBudgetEntriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Get_ShouldReturnForbidden_OnBudgetWithoutAccess()
+    public async Task Get_ShouldReturnForbidden_WhenBudgetWithoutAccess()
     {
         //Arrange
         var queryParams = new Dictionary<string, string?>()

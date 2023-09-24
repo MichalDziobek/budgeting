@@ -12,19 +12,20 @@ public class CreateCategoryCommandHandlerTests
 {
     private readonly CreateCategoryCommandHandler _sut;
     private readonly ICategoriesRepository _categoriesRepository;
+    private readonly Fixture _fixture;
 
     public CreateCategoryCommandHandlerTests()
     {
         _categoriesRepository = Substitute.For<ICategoriesRepository>();
         _sut = new CreateCategoryCommandHandler(_categoriesRepository);
+        _fixture = new Fixture();
     }
 
     [Fact]
     public async Task ShouldCallCreateWithCorrectData()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<CreateCategoryCommand>();
+        var command = _fixture.Create<CreateCategoryCommand>();
         
         //Act
 
@@ -38,9 +39,8 @@ public class CreateCategoryCommandHandlerTests
     public async Task ShouldReturnCorrectResult()
     {
         //Arrange
-        var fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
-        var command = fixture.Create<CreateCategoryCommand>();
-        var budget = fixture.Create<Category>();
+        var command = _fixture.Create<CreateCategoryCommand>();
+        var budget = _fixture.Create<Category>();
 
         _categoriesRepository.Create(Arg.Is<Category>(x => x.Name == command.Name),
             Arg.Any<CancellationToken>()).Returns(budget);
@@ -58,8 +58,7 @@ public class CreateCategoryCommandHandlerTests
     public async Task ShouldThrowBadRequestException_WhenCategoryExists()
     {
         //Arrange
-        var fixture = new Fixture();
-        var command = fixture.Create<CreateCategoryCommand>();
+        var command = _fixture.Create<CreateCategoryCommand>();
         var category = command.Adapt<Category>();
 
         _categoriesRepository.MockExists(new []{ category });
