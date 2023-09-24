@@ -1,6 +1,6 @@
 using Application.Categories.DataModel;
 
-namespace Application.Categories.Commands.CreateCategoryCommand;
+namespace Application.Categories.Commands.CreateCategory;
 
 public class CreateCategoryResponse
 {

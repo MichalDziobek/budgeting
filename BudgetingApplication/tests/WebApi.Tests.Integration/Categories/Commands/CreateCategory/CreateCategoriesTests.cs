@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using Application.Categories.Commands.CreateCategoryCommand;
+using Application.Categories.Commands.CreateCategory;
 using Application.Categories.DataModel;
 using Domain.Entities;
 using FluentAssertions;

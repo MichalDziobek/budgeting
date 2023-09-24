@@ -1,5 +1,5 @@
 using Application.Abstractions.Persistence;
-using Application.Categories.Commands.CreateCategoryCommand;
+using Application.Categories.Commands.CreateCategory;
 using Application.Exceptions;
 using Application.Tests.Unit.Extensions;
 using AutoFixture;

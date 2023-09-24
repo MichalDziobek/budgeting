@@ -1,4 +1,4 @@
-using Application.Categories.Commands.CreateCategoryCommand;
+using Application.Categories.Commands.CreateCategory;
 using Domain.Entities;
 
 namespace WebApi.Tests.Integration.Categories;

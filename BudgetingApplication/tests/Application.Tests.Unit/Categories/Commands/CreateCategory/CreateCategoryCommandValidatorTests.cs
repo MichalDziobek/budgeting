@@ -1,4 +1,4 @@
-using Application.Categories.Commands.CreateCategoryCommand;
+using Application.Categories.Commands.CreateCategory;
 using AutoFixture;
 using FluentValidation.TestHelper;
 

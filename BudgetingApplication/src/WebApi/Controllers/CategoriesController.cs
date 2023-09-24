@@ -1,4 +1,4 @@
-using Application.Categories.Commands.CreateCategoryCommand;
+using Application.Categories.Commands.CreateCategory;
 using Application.Categories.Commands.DeleteCategory;
 using Application.Categories.Queries.GetCategories;
 using MediatR;

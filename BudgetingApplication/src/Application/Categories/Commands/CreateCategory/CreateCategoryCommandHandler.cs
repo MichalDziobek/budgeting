@@ -5,7 +5,7 @@ using Domain.Entities;
 using Mapster;
 using MediatR;
 
-namespace Application.Categories.Commands.CreateCategoryCommand;
+namespace Application.Categories.Commands.CreateCategory;
 
 public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, CreateCategoryResponse>
 {
