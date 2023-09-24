@@ -1,12 +1,12 @@
 using System.Net;
 using System.Net.Http.Json;
-using Application.Abstractions;
 using Application.Categories.Commands.CreateCategoryCommand;
 using Application.Categories.DataModel;
 using Domain.Entities;
 using FluentAssertions;
 using Mapster;
 using NSubstitute;
+using WebApi.Authorization;
 using WebApi.Tests.Integration.Common;
 using WebApi.Tests.Integration.Common.Abstractions;
 using WebApi.Tests.Integration.Users;
@@ -20,16 +20,20 @@ public class CreateCategoriesTests : IAsyncLifetime
     private const string PathPrefix = "categories";
 
     private readonly HttpClient _client;
-    private readonly ICurrentUserService _currentUserService;
     private readonly ITestDatabase _testDatabase;
+    private readonly ITestPermissionsProvider _testPermissionsProvider;
 
     public CreateCategoriesTests(CustomWebApplicationFactory apiFactory)
     {
         _client = apiFactory.CreateClient();
-        _currentUserService = apiFactory.CurrentUserService;
+        var currentUserService = apiFactory.CurrentUserService;
+        _testPermissionsProvider = apiFactory.TestPermissionsProvider;
+        _testPermissionsProvider.GetPermissionValues()
+            .Returns(new[] { AuthorizationPolicies.CreateCategoryPolicy.PermissionName });
+        
         _testDatabase = apiFactory.GetTestDatabase();
         
-        _currentUserService.UserId.Returns(UserTestsData.DefaultUserId);
+        currentUserService.UserId.Returns(UserTestsData.DefaultUserId);
         
     }
 
@@ -63,6 +67,20 @@ public class CreateCategoriesTests : IAsyncLifetime
         //Assert
         result.Should().NotBeNull();
         result!.Category.Id.Should().NotBe(default);
+    }
+    
+    [Fact]
+    public async Task Create_ShouldForbidden_WhenDoesNotHavePermission()
+    {
+        //Arrange
+        var command = CategoriesTestsData.CorrectCreateCommand;
+        _testPermissionsProvider.GetPermissionValues().Returns(Enumerable.Empty<string>());
+        
+        //Act
+        var response = await _client.PostAsJsonAsync(PathPrefix, command);
+        
+        //Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
     
     [Fact]

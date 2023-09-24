@@ -4,7 +4,7 @@ namespace WebApi.Authorization;
 
 public static class AuthorizationPoliciesExtensions
 {
-    private const string PermissionClaimName = "permissions";
+    public const string PermissionClaimName = "permissions";
     public static AuthorizationOptions AddPermissionPolicies(this AuthorizationOptions options)
     {
         var policyValues = AuthorizationPolicies.GetAll();

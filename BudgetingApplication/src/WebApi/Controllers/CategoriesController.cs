@@ -1,4 +1,5 @@
 using Application.Categories.Commands.CreateCategoryCommand;
+using Application.Categories.Commands.DeleteCategory;
 using Application.Categories.Queries.GetCategories;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,15 @@ public class CategoriesController : ControllerBase
     {
         var result = await _sender.Send(createCategoryCommand, cancellationToken);
         return Ok(result);
+    }
+    
+    [HttpDelete("{categoryId:int}")]
+    [Authorize(Policy = AuthorizationPolicies.DeleteCategory)]
+    public async Task<ActionResult> Delete(int categoryId, CancellationToken cancellationToken = default)
+    {
+        var command = new DeleteCategoryCommand() { CategoryId = categoryId };
+        await _sender.Send(command, cancellationToken);
+        return Ok();
     }
     
     [HttpGet]

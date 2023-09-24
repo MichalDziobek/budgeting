@@ -69,14 +69,9 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
         return newEntityState;
     }
 
-    public async Task Delete(TId id, CancellationToken cancellationToken = default)
+    public async Task Delete(TEntity entity, CancellationToken cancellationToken = default)
     {
-        var entity = await GetById(id, cancellationToken);
-        if (entity is null)
-        {
-            return;
-        }
-
         DbSet.Remove(entity);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

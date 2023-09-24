@@ -18,6 +18,6 @@ public interface IGenericRepository<TEntity, in TId>
     public Task<PaginatedResponse<TEntity>> GetPaginatedResponse(int offset, int limit, 
         Func<IQueryable<TEntity>, IQueryable<TEntity>>? filters = null, CancellationToken cancellationToken = default);
     public Task<TEntity> Update(TEntity newEntityState, CancellationToken cancellationToken = default);
-    public Task Delete(TId id, CancellationToken cancellationToken = default);
+    public Task Delete(TEntity entity, CancellationToken cancellationToken = default);
 
 }
