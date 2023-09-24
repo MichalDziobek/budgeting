@@ -19,7 +19,7 @@ public class ShareBudgetTests : IAsyncLifetime
     private readonly HttpClient _client;
     private readonly ICurrentUserService _currentUserService;
     private readonly ITestDatabase _testDatabase;
-    private readonly List<User> _initialUsers;
+    private List<User> _initialUsers = new();
 
     private int _existingBudgetId;
     
@@ -31,16 +31,12 @@ public class ShareBudgetTests : IAsyncLifetime
         _currentUserService = apiFactory.CurrentUserService;
         _testDatabase = apiFactory.GetTestDatabase();
         
-        var fixture = new Fixture();
-        _initialUsers = new List<User>()
-        {
-            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
-            new() { Id = fixture.Create<string>(), FullName = "Jane Doe", Email = "jane.doe@example.com" },
-        };
-        
+        PrepareData();
+
         _currentUserService.UserId.Returns(_initialUsers[0].Id);
         
     }
+
 
     public async Task InitializeAsync()
     {
@@ -154,4 +150,14 @@ public class ShareBudgetTests : IAsyncLifetime
         BudgetId = _existingBudgetId,
         SharedUserId = _initialUsers[1].Id
     };
+    
+    private void PrepareData()
+    {
+        var fixture = new Fixture();
+        _initialUsers = new List<User>()
+        {
+            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
+            new() { Id = fixture.Create<string>(), FullName = "Jane Doe", Email = "jane.doe@example.com" },
+        };
+    }
 }

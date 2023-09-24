@@ -16,7 +16,7 @@ public class DeleteCategoriesTests : IAsyncLifetime
 {
     private readonly HttpClient _client;
     private readonly ITestDatabase _testDatabase;
-    private readonly Category _existingCategory;
+    private Category _existingCategory = new Category();
     private readonly ITestPermissionsProvider _testPermissionsProvider;
 
     private string EndpointPath(int categoryId) => $"categories/{categoryId}";
@@ -29,11 +29,16 @@ public class DeleteCategoriesTests : IAsyncLifetime
         _testPermissionsProvider.GetPermissionValues()
             .Returns(new[] { AuthorizationPolicies.DeleteCategoryPolicy.PermissionName });
 
-        var fixture = new Fixture();
-        _existingCategory = new Category() { Id = fixture.Create<int>(), Name = "Category Name" };
-        
+        PrepareData();
+
         apiFactory.CurrentUserService.UserId.Returns(UserTestsData.DefaultUserId);
         
+    }
+
+    private void PrepareData()
+    {
+        var fixture = new Fixture();
+        _existingCategory = new Category() { Id = fixture.Create<int>(), Name = "Category Name" };
     }
 
     public async Task InitializeAsync() => await _testDatabase.AddAsync<Category, int>(_existingCategory);

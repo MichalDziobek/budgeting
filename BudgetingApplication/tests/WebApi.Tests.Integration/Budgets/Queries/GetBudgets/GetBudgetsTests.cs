@@ -21,9 +21,9 @@ public class GetBudgetsTests : IAsyncLifetime
     private const string PathPrefix = "budgets";
     private readonly HttpClient _client;
     private readonly ITestDatabase _testDatabase;
-    private readonly List<Budget> _initialBudgets;
-    private readonly List<User> _initialUsers;
     private readonly ICurrentUserService _currentUserService;
+    private List<Budget> _initialBudgets = new();
+    private List<User> _initialUsers = new();
 
     public GetBudgetsTests(CustomWebApplicationFactory apiFactory)
     {
@@ -31,26 +31,9 @@ public class GetBudgetsTests : IAsyncLifetime
         _testDatabase = apiFactory.GetTestDatabase();
         _currentUserService = apiFactory.CurrentUserService;
 
-        var fixture = new Fixture();
-        
-        _initialUsers = new List<User>()
-        {
-            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
-            new() { Id = fixture.Create<string>(), FullName = "Jane Doe", Email = "jane.doe@example.com" },
-        };
-        _initialBudgets = new List<Budget>()
-        {
-            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = OwnerId },
-            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = OwnerId },
-            new() { Id = fixture.Create<int>(), Name = "Budget 3", OwnerId = SharedToUserId },
-            new() { Id = fixture.Create<int>(), Name = "Budget 4", OwnerId = SharedToUserId },
-            new() { Id = fixture.Create<int>(), Name = "Budget 5", OwnerId = SharedToUserId },
-        };
-        _initialBudgets[3].SharedBudgets = new List<SharedBudget>()
-            { new() { BudgetId = _initialBudgets[3].Id, UserId = OwnerId } };
-        _initialBudgets[4].SharedBudgets = new List<SharedBudget>()
-            { new() { BudgetId = _initialBudgets[4].Id, UserId = OwnerId } };
+        PrepareData();
     }
+
 
     public async Task InitializeAsync()
     {
@@ -109,4 +92,28 @@ public class GetBudgetsTests : IAsyncLifetime
 
     private string OwnerId => _initialUsers[0].Id;
     private string SharedToUserId => _initialUsers[1].Id;
+    
+    
+    private void PrepareData()
+    {
+        var fixture = new Fixture();
+
+        _initialUsers = new List<User>()
+        {
+            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
+            new() { Id = fixture.Create<string>(), FullName = "Jane Doe", Email = "jane.doe@example.com" },
+        };
+        _initialBudgets = new List<Budget>()
+        {
+            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = OwnerId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = OwnerId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 3", OwnerId = SharedToUserId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 4", OwnerId = SharedToUserId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 5", OwnerId = SharedToUserId },
+        };
+        _initialBudgets[3].SharedBudgets = new List<SharedBudget>()
+            { new() { BudgetId = _initialBudgets[3].Id, UserId = OwnerId } };
+        _initialBudgets[4].SharedBudgets = new List<SharedBudget>()
+            { new() { BudgetId = _initialBudgets[4].Id, UserId = OwnerId } };
+    }
 }

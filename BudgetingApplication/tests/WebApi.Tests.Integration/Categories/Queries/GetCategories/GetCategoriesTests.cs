@@ -19,22 +19,14 @@ public class GetCategoriesTests : IAsyncLifetime
     private const string PathPrefix = "categories";
     private readonly HttpClient _client;
     private readonly ITestDatabase _testDatabase;
-    private readonly List<Category> _initialCategories;
+    private List<Category> _initialCategories = new();
 
     public GetCategoriesTests(CustomWebApplicationFactory apiFactory)
     {
         _client = apiFactory.CreateClient();
         _testDatabase = apiFactory.GetTestDatabase();
 
-        var fixture = new Fixture();
-        _initialCategories = new List<Category>()
-        {
-            new() { Id = fixture.Create<int>(), Name = "Expense - Other"},
-            new() { Id = fixture.Create<int>(), Name = "Income - Other"},
-            new() { Id = fixture.Create<int>(), Name = "Salary"},
-            new() { Id = fixture.Create<int>(), Name = "Category 4"},
-            new() { Id = fixture.Create<int>(), Name = "Category 5"},
-        };
+        PrepareData();
     }
 
     public async Task InitializeAsync() => await _testDatabase.AddRangeAsync<Category, int>(_initialCategories);
@@ -100,5 +92,18 @@ public class GetCategoriesTests : IAsyncLifetime
         
         //Assert
         result.Should().BeEquivalentTo(expectedResult);
+    }
+    
+    private void PrepareData()
+    {
+        var fixture = new Fixture();
+        _initialCategories = new List<Category>()
+        {
+            new() { Id = fixture.Create<int>(), Name = "Expense - Other" },
+            new() { Id = fixture.Create<int>(), Name = "Income - Other" },
+            new() { Id = fixture.Create<int>(), Name = "Salary" },
+            new() { Id = fixture.Create<int>(), Name = "Category 4" },
+            new() { Id = fixture.Create<int>(), Name = "Category 5" },
+        };
     }
 }

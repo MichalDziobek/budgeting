@@ -19,23 +19,16 @@ public class GetUsersTests : IAsyncLifetime
     private const string PathPrefix = "users";
     private readonly HttpClient _client;
     private readonly ITestDatabase _testDatabase;
-    private readonly List<User> _initialUsers;
+    private List<User> _initialUsers = new();
 
     public GetUsersTests(CustomWebApplicationFactory apiFactory)
     {
         _client = apiFactory.CreateClient();
         _testDatabase = apiFactory.GetTestDatabase();
 
-        var fixture = new Fixture();
-        _initialUsers = new List<User>()
-        {
-            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
-            new() { Id = fixture.Create<string>(), FullName = "Jane Doe", Email = "jane.doe@example.com" },
-            new() { Id = fixture.Create<string>(), FullName = "Jim Doe", Email = "jim.doe@example.com" },
-            new() { Id = fixture.Create<string>(), FullName = "John Smith", Email = "john.smith@example.com" },
-            new() { Id = fixture.Create<string>(), FullName = "Jane Smith", Email = "jane.smith@example.com" },
-        };
+        PrepareData();
     }
+
 
     public async Task InitializeAsync() => await _testDatabase.AddRangeAsync<User, string>(_initialUsers);
 
@@ -158,5 +151,19 @@ public class GetUsersTests : IAsyncLifetime
         
         //Assert
         result.Should().BeEquivalentTo(expectedResult);
+    }
+    
+    
+    private void PrepareData()
+    {
+        var fixture = new Fixture();
+        _initialUsers = new List<User>()
+        {
+            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
+            new() { Id = fixture.Create<string>(), FullName = "Jane Doe", Email = "jane.doe@example.com" },
+            new() { Id = fixture.Create<string>(), FullName = "Jim Doe", Email = "jim.doe@example.com" },
+            new() { Id = fixture.Create<string>(), FullName = "John Smith", Email = "john.smith@example.com" },
+            new() { Id = fixture.Create<string>(), FullName = "Jane Smith", Email = "jane.smith@example.com" },
+        };
     }
 }
