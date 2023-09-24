@@ -24,7 +24,7 @@ services:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=budgetingDb
     volumes:
-      - dubgetingData:/var/lib/postgresql/data/
+      - budgetingData:/var/lib/postgresql/data/
 
 volumes:
-  dubgetingData:
+  budgetingData:
