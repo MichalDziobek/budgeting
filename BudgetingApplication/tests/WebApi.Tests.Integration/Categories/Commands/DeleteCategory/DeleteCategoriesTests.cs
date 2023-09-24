@@ -16,8 +16,11 @@ public class DeleteCategoriesTests : IAsyncLifetime
 {
     private readonly HttpClient _client;
     private readonly ITestDatabase _testDatabase;
-    private Category _existingCategory = new Category();
     private readonly ITestPermissionsProvider _testPermissionsProvider;
+    private Category _existingCategory = new();
+    private List<User> _initialUsers = new();
+    private List<Budget> _initialBudgets = new();
+    private List<BudgetEntry> _existingBudgetEntries = new();
 
     private string EndpointPath(int categoryId) => $"categories/{categoryId}";
 
@@ -35,13 +38,13 @@ public class DeleteCategoriesTests : IAsyncLifetime
         
     }
 
-    private void PrepareData()
+    public async Task InitializeAsync()
     {
-        var fixture = new Fixture();
-        _existingCategory = new Category() { Id = fixture.Create<int>(), Name = "Category Name" };
+        await _testDatabase.AddRangeAsync<User, string>(_initialUsers);
+        await _testDatabase.AddRangeAsync<Budget, int>(_initialBudgets);
+        await _testDatabase.AddAsync<Category, int>(_existingCategory);
+        await _testDatabase.AddRangeAsync<BudgetEntry, int>(_existingBudgetEntries);
     }
-
-    public async Task InitializeAsync() => await _testDatabase.AddAsync<Category, int>(_existingCategory);
 
     public async Task DisposeAsync() => await _testDatabase.ResetAsync();
 
@@ -71,7 +74,7 @@ public class DeleteCategoriesTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task Create_ShouldDeleteFromDb_WhenCorrectRequest()
+    public async Task Create_ShouldDeleteCategoryFromDb_WhenCorrectRequest()
     {
         //Arrange
         
@@ -81,6 +84,24 @@ public class DeleteCategoriesTests : IAsyncLifetime
 
         //Assert
         entity.Should().BeNull();
+    }
+    
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    public async Task Create_ShouldDeleteBudgetEntriesDb_WhenCorrectRequest(int budgetEntryIndex)
+    {
+        //Arrange
+        var budgetEntryId = _existingBudgetEntries[budgetEntryIndex].Id;
+        
+        //Act
+        var entityPreDelete = await _testDatabase.FindAsync<BudgetEntry, int>(budgetEntryId);
+        _ = await _client.DeleteAsync(EndpointPath(_existingCategory.Id));
+        var entityPostDelete = await _testDatabase.FindAsync<BudgetEntry, int>(budgetEntryId);
+
+        //Assert
+        entityPreDelete.Should().NotBeNull();
+        entityPostDelete.Should().BeNull();
     }
 
     
@@ -94,5 +115,33 @@ public class DeleteCategoriesTests : IAsyncLifetime
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    private void PrepareData()
+    {
+        var fixture = new Fixture();
+        _existingCategory = new Category() { Id = fixture.Create<int>(), Name = "Category Name" };
+        _initialUsers = new List<User>()
+        {
+            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
+        };
+        _initialBudgets = new List<Budget>()
+        {
+            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = _initialUsers[0].Id, TotalValue = 1000 },
+        };
+
+        _existingBudgetEntries = new List<BudgetEntry>()
+        {
+            new()
+            {
+                Id = fixture.Create<int>(), Name = fixture.Create<string>(), Value = 200,
+                BudgetId = _initialBudgets[0].Id, CategoryId = _existingCategory.Id,
+            },
+            new()
+            {
+                Id = fixture.Create<int>(), Name = fixture.Create<string>(), Value = 200,
+                BudgetId = _initialBudgets[0].Id, CategoryId = _existingCategory.Id,
+            }
+        };
     }
 }

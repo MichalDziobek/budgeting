@@ -18,7 +18,7 @@ public class CreateCategoryCommandHandlerTests
     {
         _categoriesRepository = Substitute.For<ICategoriesRepository>();
         _sut = new CreateCategoryCommandHandler(_categoriesRepository);
-        _fixture = new Fixture();
+        _fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
     }
 
     [Fact]

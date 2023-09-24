@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using Application.Abstractions;
 using Application.Budgets.Commands.CreateBudget;
 using Application.Budgets.DataModels;
+using AutoFixture;
 using Domain.Entities;
 using FluentAssertions;
 using Mapster;
@@ -23,6 +24,7 @@ public class CreateBudgetsTests : IAsyncLifetime
     private readonly HttpClient _client;
     private readonly ICurrentUserService _currentUserService;
     private readonly ITestDatabase _testDatabase;
+    private List<User> _initialUsers = new();
 
     public CreateBudgetsTests(CustomWebApplicationFactory apiFactory)
     {
@@ -134,6 +136,20 @@ public class CreateBudgetsTests : IAsyncLifetime
     }
     
     [Fact]
+    public async Task Create_ShouldReturnBadRequest_WhenUserIdIsNotInDb()
+    {
+        //Arrange
+        var command = BudgetsTestsData.CorrectCreateCommand;
+        _currentUserService.UserId.Returns("differentUserId");
+        
+        //Act
+        var response = await _client.PostAsJsonAsync(PathPrefix, command);
+        
+        //Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+    
+    [Fact]
     public async Task Create_ShouldReturnBadRequest_WhenBudgetAlreadyExists()
     {
         //Arrange
@@ -145,5 +161,15 @@ public class CreateBudgetsTests : IAsyncLifetime
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+    
+    private void PrepareData()
+    {
+        var fixture = new Fixture();
+        _initialUsers = new List<User>()
+        {
+            new() { Id = fixture.Create<string>(), FullName = "John Doe", Email = "john.doe@example.com" },
+            new() { Id = fixture.Create<string>(), FullName = "Jane Doe", Email = "jane.doe@example.com" },
+        };
     }
 }

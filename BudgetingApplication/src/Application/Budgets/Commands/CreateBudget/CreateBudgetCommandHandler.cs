@@ -11,12 +11,14 @@ namespace Application.Budgets.Commands.CreateBudget;
 public class CreateBudgetCommandHandler : IRequestHandler<CreateBudgetCommand, CreateBudgetResponse>
 {
     private readonly ICurrentUserService _currentUserService;
+    private readonly IUsersRepository _usersRepository;
     private readonly IBudgetsRepository _budgetsRepository;
 
-    public CreateBudgetCommandHandler(ICurrentUserService currentUserService, IBudgetsRepository budgetsRepository)
+    public CreateBudgetCommandHandler(ICurrentUserService currentUserService, IBudgetsRepository budgetsRepository, IUsersRepository usersRepository)
     {
         _currentUserService = currentUserService;
         _budgetsRepository = budgetsRepository;
+        _usersRepository = usersRepository;
     }
 
     public async Task<CreateBudgetResponse> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
@@ -24,6 +26,11 @@ public class CreateBudgetCommandHandler : IRequestHandler<CreateBudgetCommand, C
         if (_currentUserService.UserId is null)
         {
             throw new UnauthorizedException("User does not have valid id in token");
+        }
+
+        if (!await _usersRepository.Exists(x => x.Id == _currentUserService.UserId, cancellationToken))
+        {
+            throw new BadRequestException("Current user does not exist in database. User entity must be created first");
         }
 
         if (await _budgetsRepository.Exists(x => x.OwnerId == _currentUserService.UserId && x.Name == request.Name,

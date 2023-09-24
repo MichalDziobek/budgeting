@@ -15,13 +15,15 @@ public class CreateBudgetCommandHandlerTests
     private readonly CreateBudgetCommandHandler _sut;
     private readonly ICurrentUserService _currentUserService;
     private readonly IBudgetsRepository _budgetsRepository;
+    private readonly IUsersRepository _usersRepository;
     private readonly Fixture _fixture;
 
     public CreateBudgetCommandHandlerTests()
     {
         _currentUserService = Substitute.For<ICurrentUserService>();
         _budgetsRepository = Substitute.For<IBudgetsRepository>();
-        _sut = new CreateBudgetCommandHandler(_currentUserService, _budgetsRepository);
+        _usersRepository = Substitute.For<IUsersRepository>();
+        _sut = new CreateBudgetCommandHandler(_currentUserService, _budgetsRepository, _usersRepository);
         _fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
     }
 
@@ -30,8 +32,10 @@ public class CreateBudgetCommandHandlerTests
     {
         //Arrange
         var command = _fixture.Create<CreateBudgetCommand>();
-        var userId = _fixture.Create<string>();
+        var user = _fixture.Create<User>();
+        var userId = user.Id;
         _currentUserService.UserId.Returns(userId);
+        _usersRepository.MockExists(new[] { user });
         
         //Act
 
@@ -47,8 +51,10 @@ public class CreateBudgetCommandHandlerTests
     {
         //Arrange
         var command = _fixture.Create<CreateBudgetCommand>();
-        var userId = _fixture.Create<string>();
+        var user = _fixture.Create<User>();
+        var userId = user.Id;
         _currentUserService.UserId.Returns(userId);
+        _usersRepository.MockExists(new[] { user });
         var budget = _fixture.Create<Budget>();
 
         _budgetsRepository.Create(Arg.Is<Budget>(x => x.OwnerId == userId && x.Name == command.Name),
@@ -70,11 +76,31 @@ public class CreateBudgetCommandHandlerTests
         _currentUserService.UserId.ReturnsNull();
         
         //Act
-
          var act = () => _sut.Handle(command, CancellationToken.None);
 
         //Assert
         await act.Should().ThrowAsync<UnauthorizedException>();
+    }
+    
+    [Fact]
+    public async Task ShouldReturnThrowBadRequestException_WhenUserDoesNotExist()
+    {
+        //Arrange
+        var command = _fixture.Create<CreateBudgetCommand>();
+        var user = _fixture.Create<User>();
+        var userId = user.Id;
+        _currentUserService.UserId.Returns(userId);
+        _usersRepository.MockExists(Enumerable.Empty<User>());
+        var budget = _fixture.Create<Budget>();
+
+        _budgetsRepository.Create(Arg.Is<Budget>(x => x.OwnerId == userId && x.Name == command.Name),
+            Arg.Any<CancellationToken>()).Returns(budget);
+        
+        //Act
+        var act = () => _sut.Handle(command, CancellationToken.None);
+
+        //Assert
+        await act.Should().ThrowAsync<BadRequestException>();
     }
     
     [Fact]
