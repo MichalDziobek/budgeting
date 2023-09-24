@@ -25,7 +25,6 @@ public class CreateCategoryCommandHandlerTests
         //Arrange
         var fixture = new Fixture();
         var command = fixture.Create<CreateCategoryCommand>();
-        var userId = fixture.Create<string>();
         
         //Act
 
@@ -41,7 +40,6 @@ public class CreateCategoryCommandHandlerTests
         //Arrange
         var fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
         var command = fixture.Create<CreateCategoryCommand>();
-        var userId = fixture.Create<string>();
         var budget = fixture.Create<Category>();
 
         _categoriesRepository.Create(Arg.Is<Category>(x => x.Name == command.Name),

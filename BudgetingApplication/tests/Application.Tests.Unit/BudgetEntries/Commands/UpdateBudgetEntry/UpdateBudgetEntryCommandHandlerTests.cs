@@ -1,6 +1,5 @@
 using Application.Abstractions;
 using Application.Abstractions.Persistence;
-using Application.BudgetEntries.Commands.CreateBudgetEntry;
 using Application.BudgetEntries.Commands.UpdateBudgetEntry;
 using Application.Exceptions;
 using Application.Tests.Unit.Extensions;

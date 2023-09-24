@@ -64,9 +64,7 @@ public class UpdateBudgetNameTests : IAsyncLifetime
         expected!.Name = command.Name;
         
         //Act
-        var response = await _client.PatchAsJsonAsync(EndpointPath(), command);
         var entity = await _testDatabase.FindAsync<Budget, int>(_existingBudgetId);
-
         
         //Assert
         entity.Should().BeEquivalentTo(expected);

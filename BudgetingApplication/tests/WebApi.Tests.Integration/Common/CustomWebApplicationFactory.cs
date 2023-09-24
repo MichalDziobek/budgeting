@@ -61,7 +61,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>
                 options.DefaultAuthenticateScheme = TestAuthHandler.AuthenticationScheme;
                 options.DefaultChallengeScheme = TestAuthHandler.AuthenticationScheme;
             })
-            .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, options => { });
+            .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, _ => { });
     }
 
     private void AddTestDatabase(WebHostBuilderContext webHostBuilderContext, IServiceCollection services)
@@ -69,7 +69,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>
         _connectionString = webHostBuilderContext.Configuration.GetConnectionString("Postgres") ?? string.Empty;
         services
             .Remove<DbContextOptions<ApplicationDbContext>>()
-            .AddDbContext<ApplicationDbContext>((sp, options) =>
+            .AddDbContext<ApplicationDbContext>((_, options) =>
                     options.UseNpgsql(_connectionString,
                         optionsBuilder =>
                             optionsBuilder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)),

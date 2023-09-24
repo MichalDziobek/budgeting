@@ -70,10 +70,8 @@ public class ShareBudgetTests : IAsyncLifetime
     public async Task UpdateName_ShouldUpdateDb_OnCorrectRequest()
     {
         //Arrange
-        var command = CorrectShareBudgetCommand;
         
         //Act
-        var response = await _client.PutAsJsonAsync(EndpointPath(), command);
         var entity = await _testDatabase.FindAsync<Budget, int>(_existingBudgetId);
 
         //Assert

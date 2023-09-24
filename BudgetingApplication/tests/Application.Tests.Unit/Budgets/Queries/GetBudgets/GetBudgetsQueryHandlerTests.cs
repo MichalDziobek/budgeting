@@ -16,7 +16,7 @@ public class GetBudgetsQueryHandlerTests
     private readonly GetBudgetsQueryHandler _sut;
     private readonly ICurrentUserService _currentUserService;
     private readonly List<Budget> _users;
-    private const string userId = "userId";
+    private const string UserId = "userId";
 
     public GetBudgetsQueryHandlerTests()
     {
@@ -25,8 +25,8 @@ public class GetBudgetsQueryHandlerTests
 
         var fixture = new Fixture().ChangeToOmitOnRecursionBehaviour();
         _users = fixture.CreateMany<Budget>(5).ToList();
-        _users[0].OwnerId = userId;
-        _users[2].OwnerId = userId;
+        _users[0].OwnerId = UserId;
+        _users[2].OwnerId = UserId;
         
         budgetsRepository.MockGetCollection(_users);
         
@@ -39,11 +39,11 @@ public class GetBudgetsQueryHandlerTests
         //Arrange
         var expectedResponse = new GetBudgetsResponse
         {
-            OwnedBudgets = _users.Where(x => x.OwnerId == userId).Adapt<IEnumerable<BudgetDto>>(),
-            SharedBudgets =  _users.Where(x => x.SharedBudgets.Any(y => y.UserId == userId)).Adapt<IEnumerable<BudgetDto>>()
+            OwnedBudgets = _users.Where(x => x.OwnerId == UserId).Adapt<IEnumerable<BudgetDto>>(),
+            SharedBudgets =  _users.Where(x => x.SharedBudgets.Any(y => y.UserId == UserId)).Adapt<IEnumerable<BudgetDto>>()
         };
         var query = new GetBudgetsQuery();
-        _currentUserService.UserId.Returns(userId);
+        _currentUserService.UserId.Returns(UserId);
 
         //Act
         var result = await _sut.Handle(query, CancellationToken.None);

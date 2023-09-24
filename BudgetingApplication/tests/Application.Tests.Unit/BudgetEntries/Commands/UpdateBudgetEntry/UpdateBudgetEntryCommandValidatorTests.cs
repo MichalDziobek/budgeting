@@ -1,4 +1,3 @@
-using Application.BudgetEntries.Commands.CreateBudgetEntry;
 using Application.BudgetEntries.Commands.UpdateBudgetEntry;
 using AutoFixture;
 using FluentValidation.TestHelper;

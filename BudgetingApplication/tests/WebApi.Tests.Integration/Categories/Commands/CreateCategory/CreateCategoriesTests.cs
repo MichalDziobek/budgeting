@@ -112,7 +112,7 @@ public class CreateCategoriesTests : IAsyncLifetime
         //Act
         var response = await _client.PostAsJsonAsync(PathPrefix, command);
         var result = await response.Content.ReadFromJsonAsync<CreateCategoryResponse>();
-        var entity = await _testDatabase.FindAsync<Category, int>(result?.Category?.Id ?? default);
+        var entity = await _testDatabase.FindAsync<Category, int>(result?.Category.Id ?? default);
 
         
         //Assert

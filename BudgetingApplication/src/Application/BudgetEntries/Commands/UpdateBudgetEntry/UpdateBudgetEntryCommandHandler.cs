@@ -2,7 +2,6 @@ using Application.Abstractions;
 using Application.Abstractions.Persistence;
 using Application.BudgetEntries.DataModel;
 using Application.Exceptions;
-using Domain.Entities;
 using Mapster;
 using MediatR;
 

@@ -11,7 +11,7 @@ public class BudgetsRepository : GenericRepository<Budget, int>, IBudgetsReposit
 
     public async Task AddSharedBudget(SharedBudget sharedBudget, CancellationToken cancellationToken)
     {
-        _dbContext.SharedBudgets.Add(sharedBudget);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        DbContext.SharedBudgets.Add(sharedBudget);
+        await DbContext.SaveChangesAsync(cancellationToken);
     }
 }

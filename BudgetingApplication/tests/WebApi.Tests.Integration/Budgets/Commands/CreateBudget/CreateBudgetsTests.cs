@@ -95,7 +95,7 @@ public class CreateBudgetsTests : IAsyncLifetime
         //Act
         var response = await _client.PostAsJsonAsync(PathPrefix, command);
         var result = await response.Content.ReadFromJsonAsync<CreateBudgetResponse>();
-        var entity = await _testDatabase.FindAsync<Budget, int>(result?.Budget?.Id ?? default);
+        var entity = await _testDatabase.FindAsync<Budget, int>(result?.Budget.Id ?? default);
 
         
         //Assert

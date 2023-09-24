@@ -11,18 +11,18 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
     where TId : notnull
     where TEntity : BaseEntity<TId>
 {
-    protected readonly ApplicationDbContext _dbContext;
-    protected DbSet<TEntity> DbSet => _dbContext.Set<TEntity>();
+    protected readonly ApplicationDbContext DbContext;
+    protected DbSet<TEntity> DbSet => DbContext.Set<TEntity>();
 
     protected GenericRepository(ApplicationDbContext dbContext)
     {
-        _dbContext = dbContext;
+        DbContext = dbContext;
     }
 
     public async Task<TEntity> Create(TEntity entity, CancellationToken cancellationToken = default)
     {
         DbSet.Add(entity);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
         return entity;
     }
 
@@ -65,13 +65,13 @@ public class GenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId>
     public async Task<TEntity> Update(TEntity newEntityState, CancellationToken cancellationToken = default)
     {
         DbSet.Update(newEntityState);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
         return newEntityState;
     }
 
     public async Task Delete(TEntity entity, CancellationToken cancellationToken = default)
     {
         DbSet.Remove(entity);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
     }
 }
