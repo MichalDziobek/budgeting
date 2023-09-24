@@ -12,7 +12,7 @@ public class BudgetEntry : BaseEntity<int>
         get => _value;
         set
         {
-            if (_value != Value)
+            if (_value != value)
             {
                 AddDomainEvent(new BudgetEntryChangedValueEvent(_value, this));
             }

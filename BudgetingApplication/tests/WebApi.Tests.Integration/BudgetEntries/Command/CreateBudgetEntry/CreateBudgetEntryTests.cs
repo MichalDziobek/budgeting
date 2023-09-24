@@ -124,7 +124,24 @@ public class CreateBudgetEntryTests : IAsyncLifetime
         //Assert
         entity.Should().BeEquivalentTo(expected, x => x.Excluding(y => y.Id)
             .Excluding(y => y.Budget)
-            .Excluding(y => y.Category));
+            .Excluding(y => y.Category)
+            .Excluding(y => y.DomainEvents));
+    }
+    
+    [Fact]
+    public async Task Create_UpdateBudgetTotalValue_OnCorrectRequest()
+    {
+        //Arrange
+        var command = BudgetEntriesTestsData.CorrectCreateCommand(OwnedBudgetId, _existingCategory.Id);
+        var expected = _initialBudgets.Find(x => x.Id == OwnedBudgetId)?.TotalValue + command.Value;
+        
+        //Act
+        _ = await _client.PostAsJsonAsync(EndpointPath(OwnedBudgetId), command);
+        var entity = await _testDatabase.FindAsync<Budget, int>(OwnedBudgetId);
+        
+        //Assert
+        entity.Should().NotBeNull();
+        entity!.TotalValue.Should().Be(expected);
     }
     
     [Theory]
@@ -218,8 +235,8 @@ public class CreateBudgetEntryTests : IAsyncLifetime
         };
         _initialBudgets = new List<Budget>()
         {
-            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = OwnerId },
-            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = OtherUserId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = OwnerId, TotalValue = 1000},
+            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = OtherUserId, TotalValue = 1000},
         };
 
         _existingCategory = new() { Id = fixture.Create<int>(), Name = "Category 1" };

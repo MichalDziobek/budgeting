@@ -119,6 +119,25 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     }
     
     [Fact]
+    public async Task Update_ShouldUpdateBudgetTotalValue_OnCorrectRequest()
+    {
+        //Arrange
+        var command = BudgetEntriesTestsData.CorrectUpdateCommand(OwnedBudgetEntryId, SelectedCategoryId);
+        var budget = await _testDatabase.FindAsync<Budget, int>(OwnedBudgetId);
+        var budgetEntry = await _testDatabase.FindAsync<BudgetEntry, int>(OwnedBudgetEntryId);
+
+        var expected = budget?.TotalValue - budgetEntry?.Value + command.Value;
+        
+        //Act
+        _ = await _client.PutAsJsonAsync(EndpointPath(OwnedBudgetId, OwnedBudgetEntryId), command);
+        var entity = await _testDatabase.FindAsync<Budget, int>(OwnedBudgetId);
+        
+        //Assert
+        entity.Should().NotBeNull();
+        entity!.TotalValue.Should().Be(expected);
+    }
+    
+    [Fact]
     public async Task Update_ShouldUpdateDb_OnCorrectRequest()
     {
         //Arrange
@@ -135,7 +154,8 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
         //Assert
         entity.Should().BeEquivalentTo(expected, x => x
             .Excluding(y => y.Budget)
-            .Excluding(y => y.Category));
+            .Excluding(y => y.Category)
+            .Excluding(y => y.DomainEvents));
     }
     
     [Theory]
@@ -174,7 +194,7 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     public async Task Update_ShouldReturnBadRequest_WhenBudgetDoesNotExists()
     {
         //Arrange
-        var notExistingBudgetId = -1;
+        const int notExistingBudgetId = -1;
         var command = BudgetEntriesTestsData.CorrectUpdateCommand(notExistingBudgetId, SelectedCategoryId);
         
         //Act
@@ -188,7 +208,7 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
     public async Task Update_ShouldReturnBadRequest_WhenCategoryDoesNotExists()
     {
         //Arrange
-        var notExistingCategoryId = -1;
+        const int notExistingCategoryId = -1;
         var command = BudgetEntriesTestsData.CorrectUpdateCommand(OwnedBudgetEntryId, notExistingCategoryId);
         
         //Act
@@ -230,8 +250,8 @@ public class UpdateBudgetEntryTests : IAsyncLifetime
         };
         _initialBudgets = new List<Budget>()
         {
-            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = OwnerId },
-            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = OtherUserId },
+            new() { Id = fixture.Create<int>(), Name = "Budget 1", OwnerId = OwnerId, TotalValue = 1000 },
+            new() { Id = fixture.Create<int>(), Name = "Budget 2", OwnerId = OtherUserId, TotalValue = 1000 },
         };
 
         _existingCategories = new List<Category>()
